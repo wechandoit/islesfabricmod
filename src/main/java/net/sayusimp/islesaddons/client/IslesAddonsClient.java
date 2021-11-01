@@ -26,7 +26,7 @@ public class IslesAddonsClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
 
-        System.out.println("IslesAddons - Made by MiyukiChan! (V1.0)");
+        System.out.println("IslesAddons - Made by Miyuki_Chan! (V1.0)");
 
         ClientTickEvents.END_WORLD_TICK.register(clientWorld -> runnableRunner());
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> setupIPC(client));
@@ -51,7 +51,8 @@ public class IslesAddonsClient implements ClientModInitializer {
                 previousIP = client.getCurrentServerEntry().address;
                 try {
                     ipcClient.connect();
-                } catch (NoDiscordClientException e) {
+                } catch (NoDiscordClientException e)
+                {
                     e.printStackTrace();
                 }
                 DiscordUtils.lastTimestamp = OffsetDateTime.now().toEpochSecond();
@@ -76,10 +77,7 @@ public class IslesAddonsClient implements ClientModInitializer {
                     if(scoreboard.size() > 1)
                     {
                         if (scoreboard.get(1).startsWith("Rank: ")) DiscordUtils.updateRPC(scoreboard.get(2), "In Hub");
-                        else
-                        {
-                            DiscordUtils.updateRPC(scoreboard.get(2), "In Game");
-                        }
+                        else  DiscordUtils.updateRPC(scoreboard.get(2), "In Game");
                     }
                 } else DiscordUtils.updateRPC("In Game Menu", "");
             }

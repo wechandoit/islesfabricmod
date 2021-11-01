@@ -25,20 +25,21 @@ public class ChatMessagesMixin {
     private MinecraftClient client;
 
     @Inject(method = "addMessage(Lnet/minecraft/text/Text;I)V", at = @At("TAIL"))
-    public void onChatMessage(Text text, int messageId, CallbackInfo ci) {
+    public void onChatMessage(Text text, int messageId, CallbackInfo ci)
+    {
 
         String message = text.getString();
 
         List<String> rareFishingItems = Arrays.asList("Old Boots", "Fishing Casket", "Pufferfish Mask");
 
-        if (message.contains("[ITEM]")) {
+        if (message.contains("[ITEM]"))
+        {
             // check for rare item
-            if (MiscUtils.isWordFromListInString(message, rareFishingItems)) {
+            if (MiscUtils.isWordFromListInString(message, rareFishingItems))
+            {
                 MinecraftClient.getInstance().inGameHud.setTitle(text);
                 MinecraftClient.getInstance().inGameHud.setDefaultTitleFade();
-                DiscordUtils.sendMessageWebhook(message);
             }
-
         }
     }
 }

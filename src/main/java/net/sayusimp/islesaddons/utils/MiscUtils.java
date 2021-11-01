@@ -23,10 +23,7 @@ public class MiscUtils {
     {
         for (String string : checkList)
         {
-            if (message.toUpperCase().contains(string.toUpperCase()))
-            {
-                return string;
-            }
+            if (message.toUpperCase().contains(string.toUpperCase())) return string;
         }
         return null;
     }
@@ -48,11 +45,11 @@ public class MiscUtils {
                 lines.add(formatted);
             }
         }
-        if(objective == null) {
-            return lines;
+
+        if(objective != null) {
+            lines.add(objective.getDisplayName().getString());
+            Collections.reverse(lines);
         }
-        lines.add(objective.getDisplayName().getString());
-        Collections.reverse(lines);
         return lines;
     }
 }

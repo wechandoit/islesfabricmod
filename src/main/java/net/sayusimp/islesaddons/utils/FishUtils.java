@@ -3,8 +3,8 @@ package net.sayusimp.islesaddons.utils;
 import java.util.HashMap;
 
 public class FishUtils {
-
-    public static HashMap<String, Integer> fishXPMap = new HashMap<String, Integer>() {{
+    public static HashMap<String, Integer> fishXPMap = new HashMap<String, Integer>()
+    {{
         put("Raw Sardine", 12);
         put("Raw Flounder", 18);
         put("Raw Stone Clam", 22);
@@ -34,7 +34,8 @@ public class FishUtils {
         put("Raw Manta Ray", 224);
     }};
 
-    public static HashMap<String, Integer> seafoodXPMap = new HashMap<String, Integer>() {{
+    public static HashMap<String, Integer> seafoodXPMap = new HashMap<String, Integer>()
+    {{
         put("Grilled Sardine", 12);
         put("Stone Chum", 16);
         put("Grilled Flounder", 18);
@@ -65,11 +66,6 @@ public class FishUtils {
         put("Starfish Pie Slice", 225);
         put("Smoked Manta Ray", 225);
     }};
-
-    public static String getColorFromAmount(int amount)
-    {
-        return null;
-    }
 
 
 

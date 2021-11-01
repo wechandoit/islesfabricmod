@@ -25,7 +25,8 @@ public class ClientPlayNetworkHandlerMixin {
     private MinecraftClient client;
 
     @Inject(method = "onGameMessage", at = @At("HEAD"), cancellable = true)
-    public void onGameMessage(GameMessageS2CPacket packet, CallbackInfo ci) {
+    public void onGameMessage(GameMessageS2CPacket packet, CallbackInfo ci)
+    {
 
         if (MiscUtils.onIsles()) {
             String message = packet.getMessage().getString();
