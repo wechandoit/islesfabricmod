@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "islesaddons",
+  "version": "${version}",
+  "name": "islesaddons",
+  "description": "Isles Fabric mod that adds QOL features",
+  "authors": [
+    "miyuki_chan"
+  ],
+  "contact": {},
+  "license": "LGPL-3.0",
+  "icon": "assets/islesaddons/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "net.sayusimp.islesaddons.client.IslesAddonsClient"
+    ]
+  },
+  "mixins": [
+    "islesaddons.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.17.1"
+  }
+}
