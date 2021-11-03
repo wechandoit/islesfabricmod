@@ -7,7 +7,9 @@
   ],
   "client": [
     "ChatMessagesMixin",
-    "ClientPlayNetworkHandlerMixin"
+    "ClientPlayNetworkHandlerMixin",
+    "HotbarRenderMixin",
+    "ItemRenderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

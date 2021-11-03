@@ -2,11 +2,7 @@ package net.sayusimp.islesaddons.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.ChatHud;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
-import net.sayusimp.islesaddons.utils.DiscordUtils;
-import net.sayusimp.islesaddons.utils.FishUtils;
 import net.sayusimp.islesaddons.utils.MiscUtils;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

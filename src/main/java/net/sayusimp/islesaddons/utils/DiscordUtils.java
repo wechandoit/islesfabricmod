@@ -2,10 +2,7 @@ package net.sayusimp.islesaddons.utils;
 
 import com.jagrosh.discordipc.entities.RichPresence;
 import com.jagrosh.discordipc.entities.RichPresenceButton;
-import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
 import net.sayusimp.islesaddons.client.IslesAddonsClient;
-
-import java.io.IOException;
 
 public class DiscordUtils {
 
