@@ -33,7 +33,7 @@ public class EXPUtils {
         put("Raw Sea Turtle", 200);
         put("Raw Manta Ray", 224);
         // put("Raw Octopus", );
-        // put("Raw Sea Turtle", );
+        put("Raw Sea Turtle", 250);
         // put("Raw Anglerfish", );
         // put("Raw Goliath Grouper", );
         // put("Raw Shark", );
@@ -70,11 +70,12 @@ public class EXPUtils {
         put("Starfish Pie Slice", 225);
         put("Smoked Manta Ray", 225);
         // put("Grilled Octopus", );
-        // put("Jellyfish Stew", );
+        put("Jellyfish Stew", 330);
         // put("Grilled Anglerfish", );
         // put("Grilled Goliath Grouper", );
         // put("Goliath Stew", );
         // put("Smoked Shark", );
+        put("Volcanic Stew", 200);
         put("Carrot Cake Slice", 85);
         put("Banana Bread Slice", 105);
         put("Chocolate Chip Cookie Dough", 36);
@@ -98,7 +99,7 @@ public class EXPUtils {
         put("Grilled Bear Steak", 80);
         put("Fried Chicken", 32);
         put("Grilled Duck", 24);
-        // put("Grilled Seagull", );
+        put("Grilled Seagull", 26);
         // put("Parrot Stew", );
         put("Baked Potato", 18);
         put("Grilled Cheese", 35);
