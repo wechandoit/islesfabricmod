@@ -72,10 +72,12 @@ public class MiscUtils {
         List<String> lines = new ArrayList<>();
         for (ScoreboardPlayerScore score : board.getAllPlayerScores(objective)) {
             Team team = board.getPlayerTeam(score.getPlayerName());
-            String line = team.getPrefix().getString() + team.getSuffix().getString();
-            if (line.trim().length() > 0) {
-                String formatted = Formatting.strip(line);
-                lines.add(formatted);
+            if (team != null) {
+                String line = team.getPrefix().getString() + team.getSuffix().getString();
+                if (line.trim().length() > 0) {
+                    String formatted = Formatting.strip(line);
+                    lines.add(formatted);
+                }
             }
         }
 
@@ -87,6 +89,9 @@ public class MiscUtils {
     }
 
     public static int getAmountInCrate(String string) {
+
+        if (string == null || string.trim().equals("")) return 0;
+
         List<String> temp = List.of(string.replace("[", "").replace("]", "").replace("text", "").replace("}", "").replace("{", "").replace(":", "").replace("color", "").replace("italic", "").replace("false", "").replace(",", "").replace("'", "").split("\""));
         List<String> amountTemp = new ArrayList<>();
         for (String line : temp) {
@@ -104,7 +109,7 @@ public class MiscUtils {
     }
 
     public static boolean isCrate(ItemStack stack) {
-        return (stack.getName().getString().contains("Crated") && stack.getNbt().get(SkullItem.SKULL_OWNER_KEY).toString().contains(cratesSignature));
+        return (stack != null && stack.getName() != null && stack.getName().getString().contains("Crated") && stack.getNbt().get(SkullItem.SKULL_OWNER_KEY) != null && stack.getNbt().get(SkullItem.SKULL_OWNER_KEY).toString().contains(cratesSignature));
     }
 
     public static void renderAmountText(MatrixStack matrices, ItemStack stack, int x, int y, int z, int amount) {

@@ -14,6 +14,9 @@
   "entrypoints": {
     "client": [
       "net.sayusimp.islesaddons.client.IslesAddonsClient"
+    ],
+    "modmenu": [
+      "net.sayusimp.islesaddons.config.IslesAddonsModMenu"
     ]
   },
   "mixins": [

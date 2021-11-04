@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.sayusimp.islesaddons.config.IslesAddonsConfig;
 import net.sayusimp.islesaddons.utils.MiscUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,14 +21,14 @@ public class HotbarRenderMixin extends DrawableHelper {
     @Inject(method = "renderHotbarItem", at = @At(value = "TAIL"))
     public void renderHotbarItem(int x, int y, float tickDelta, PlayerEntity player, ItemStack stack, int seed, CallbackInfo ci)
     {
-        if(MiscUtils.isCrate(stack))
-        {
-            NbtCompound nbt = stack.getNbt();
-            NbtCompound nbtDisplay = nbt.getCompound(ItemStack.DISPLAY_KEY);
-            NbtList nbtLore = new NbtList();
-            String rawLore = nbtDisplay.get(ItemStack.LORE_KEY).toString();
-            int amount = MiscUtils.getAmountInCrate(rawLore);
-            MiscUtils.renderAmountText(new MatrixStack(), stack, x, y, getZOffset(), amount);
+        if (IslesAddonsConfig.CONFIG.get("enable-crate-icon-amount", Boolean.class)) {
+            if (MiscUtils.isCrate(stack)) {
+                NbtCompound nbt = stack.getNbt();
+                NbtCompound nbtDisplay = nbt.getCompound(ItemStack.DISPLAY_KEY);
+                String rawLore = nbtDisplay.get(ItemStack.LORE_KEY).toString();
+                int amount = MiscUtils.getAmountInCrate(rawLore);
+                MiscUtils.renderAmountText(new MatrixStack(), stack, x, y, getZOffset(), amount);
+            }
         }
     }
 }

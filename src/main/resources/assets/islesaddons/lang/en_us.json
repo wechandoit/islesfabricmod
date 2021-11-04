@@ -1,0 +1,9 @@
+{
+  "isles-addons.options": "IslesAddons Options",
+  "option.isles-addons.enable-crate-icon-amount": "Crate Amount Icon",
+  "option.isles-addons.enable-crate-icon-amount.tooltip": "Enable/Disable the Crate Amount Icon",
+  "option.isles-addons.enable-custom-message": "Harvest Item Message",
+  "option.isles-addons.enable-custom-message.tooltip": "Enable/Disable the Custom Resource Drop message (shows XP)",
+  "option.isles-addons.enable-rare-fishing-title": "Rare Fishing Drop Title",
+  "option.isles-addons.enable-rare-fishing-title.tooltip": "Enable/Disable the Rare Fishing Title on a rare resource drop"
+}

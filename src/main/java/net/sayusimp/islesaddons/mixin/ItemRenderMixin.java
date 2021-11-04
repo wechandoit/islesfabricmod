@@ -5,10 +5,10 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.sayusimp.islesaddons.config.IslesAddonsConfig;
 import net.sayusimp.islesaddons.utils.MiscUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,16 +27,15 @@ public class ItemRenderMixin extends Screen {
     @Inject(method = "drawItem", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/render/item/ItemRenderer;renderGuiItemOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V",
             shift = At.Shift.AFTER))
-    public void renderInventoryItem(ItemStack stack, int x, int y, String amountText, CallbackInfo ci)
-    {
-        if(MiscUtils.isCrate(stack))
-        {
-            NbtCompound nbt = stack.getNbt();
-            NbtCompound nbtDisplay = nbt.getCompound(ItemStack.DISPLAY_KEY);
-            NbtList nbtLore = new NbtList();
-            String rawLore = nbtDisplay.get(ItemStack.LORE_KEY).toString();
-            int amount = MiscUtils.getAmountInCrate(rawLore);
-            MiscUtils.renderAmountText(new MatrixStack(), stack, x, y, getZOffset(), amount);
+    public void renderInventoryItem(ItemStack stack, int x, int y, String amountText, CallbackInfo ci) {
+        if (IslesAddonsConfig.CONFIG.get("enable-crate-icon-amount", Boolean.class)) {
+            if (MiscUtils.isCrate(stack)) {
+                NbtCompound nbt = stack.getNbt();
+                NbtCompound nbtDisplay = nbt.getCompound(ItemStack.DISPLAY_KEY);
+                String rawLore = nbtDisplay.get(ItemStack.LORE_KEY).toString();
+                int amount = MiscUtils.getAmountInCrate(rawLore);
+                MiscUtils.renderAmountText(new MatrixStack(), stack, x, y, getZOffset(), amount);
+            }
         }
     }
 
@@ -46,16 +45,16 @@ public class ItemRenderMixin extends Screen {
                     target = "Lnet/minecraft/client/render/item/ItemRenderer;renderGuiItemOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V",
                     shift = At.Shift.AFTER))
     public void renderInventoryItem(MatrixStack matrices, Slot slot, CallbackInfo ci) {
-        ItemStack stack = slot.getStack();
-        if(MiscUtils.isCrate(stack))
-        {
-            NbtCompound nbt = stack.getNbt();
-            NbtCompound nbtDisplay = nbt.getCompound(ItemStack.DISPLAY_KEY);
-            NbtList nbtLore = new NbtList();
-            String rawLore = nbtDisplay.get(ItemStack.LORE_KEY).toString();
-            int amount = MiscUtils.getAmountInCrate(rawLore);
-            MiscUtils.renderAmountText(new MatrixStack(), stack, slot.x, slot.y, getZOffset(), amount);
+        if (IslesAddonsConfig.CONFIG.get("enable-crate-icon-amount", Boolean.class)) {
+            ItemStack stack = slot.getStack();
+            if (MiscUtils.isCrate(stack)) {
+                NbtCompound nbt = stack.getNbt();
+                NbtCompound nbtDisplay = nbt.getCompound(ItemStack.DISPLAY_KEY);
+                String rawLore = nbtDisplay.get(ItemStack.LORE_KEY).toString();
+                int amount = MiscUtils.getAmountInCrate(rawLore);
+                MiscUtils.renderAmountText(new MatrixStack(), stack, slot.x, slot.y, getZOffset(), amount);
 
+            }
         }
     }
 }

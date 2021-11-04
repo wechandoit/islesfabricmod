@@ -17,6 +17,7 @@ repositories {
         url 'https://jitpack.io'
     }
     maven { url "https://maven.shedaniel.me/" }
+    maven { url "https://maven.terraformersmc.com/" }
 }
 
 dependencies {
@@ -34,6 +35,17 @@ dependencies {
         exclude module: 'log4j'
     }
     include "com.github.thatgravyboat:DiscordIPC:d813b27"
+    depImpl "com.terraformersmc:modmenu:${project.modmenu_version}"
+}
+
+def depImpl(String id, boolean include = false) {
+    dependencies.modImplementation (id) {
+        exclude group: "net.fabricmc.fabric-api"
+    }
+    if (include)
+        dependencies.include (id) {
+            exclude group: "net.fabricmc.fabric-api"
+        }
 }
 
 processResources {

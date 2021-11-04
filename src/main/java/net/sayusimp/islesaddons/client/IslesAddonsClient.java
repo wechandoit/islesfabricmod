@@ -7,7 +7,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import net.minecraft.client.MinecraftClient;
+import net.sayusimp.islesaddons.config.IslesAddonsConfig;
 import net.sayusimp.islesaddons.utils.DiscordUtils;
 import net.sayusimp.islesaddons.utils.MiscUtils;
 
@@ -15,13 +17,17 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
-public class IslesAddonsClient implements ClientModInitializer {
+public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitializer {
     public static MinecraftClient client = MinecraftClient.getInstance();
     public static IPCClient ipcClient = new IPCClient(904055870483222528L);
 
     private static int discordAppCount = 0;
     private static String previousIP = "";
     private static int clientTick = 1;
+
+    public void onPreLaunch() {
+        IslesAddonsConfig.load();
+    }
 
     @Override
     public void onInitializeClient() {

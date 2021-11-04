@@ -6,6 +6,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TextColor;
+import net.sayusimp.islesaddons.config.IslesAddonsConfig;
 import net.sayusimp.islesaddons.utils.EXPUtils;
 import net.sayusimp.islesaddons.utils.MiscUtils;
 import org.spongepowered.asm.mixin.Final;
@@ -30,29 +31,31 @@ public class ClientPlayNetworkHandlerMixin {
     public void onGameMessage(GameMessageS2CPacket packet, CallbackInfo ci)
     {
 
-        if (MiscUtils.onIsles()) {
-            String message = packet.getMessage().getString();
-            if (message.contains("[ITEM]")) {
-                //MinecraftClient.getInstance().player.sendChatMessage("no");
-                // check for rare item
-                if (message.contains("Raw") && MiscUtils.isWordFromListInString(message, EXPUtils.fishXPMap.keySet().stream().toList())) {
-                    ci.cancel();
-                    sendMessageToPlayerFromList(message, EXPUtils.fishXPMap, MinecraftClient.getInstance().player);
-                } else if (!message.contains("Hide") && MiscUtils.isWordFromListInString(message, EXPUtils.cookingXPMap.keySet().stream().toList())) {
-                    ci.cancel();
-                    sendMessageToPlayerFromList(message, EXPUtils.cookingXPMap, MinecraftClient.getInstance().player);
-                } else if ((message.contains("Log") || message.contains("Bark")) && MiscUtils.isWordFromListInString(message, EXPUtils.foragingXPMap.keySet().stream().toList())) {
-                    ci.cancel();
-                    sendMessageToPlayerFromList(message, EXPUtils.foragingXPMap, MinecraftClient.getInstance().player);
-                } else if (message.contains("Handle") && MiscUtils.isWordFromListInString(message, EXPUtils.foragingXPMap.keySet().stream().toList())) {
-                    ci.cancel();
-                    sendMessageToPlayerFromList(message, EXPUtils.carvingXPMap, MinecraftClient.getInstance().player);
-                } else if (MiscUtils.isWordFromListInString(message, EXPUtils.farmingXPMap.keySet().stream().toList())) {
-                    ci.cancel();
-                    sendMessageToPlayerFromList(message, EXPUtils.farmingXPMap, MinecraftClient.getInstance().player);
-                } else if ((message.contains("Ore") || message.contains("Chunk") || message.contains("Coal") || message.contains("Ice")) && MiscUtils.isWordFromListInString(message, EXPUtils.miningXPMap.keySet().stream().toList())) {
-                    ci.cancel();
-                    sendMessageToPlayerFromList(message, EXPUtils.miningXPMap, MinecraftClient.getInstance().player);
+        if (IslesAddonsConfig.CONFIG.get("enable-custom-message", Boolean.class)) {
+            if (MiscUtils.onIsles()) {
+                String message = packet.getMessage().getString();
+                if (message.contains("[ITEM]")) {
+                    //MinecraftClient.getInstance().player.sendChatMessage("no");
+                    // check for rare item
+                    if (message.contains("Raw") && MiscUtils.isWordFromListInString(message, EXPUtils.fishXPMap.keySet().stream().toList())) {
+                        ci.cancel();
+                        sendMessageToPlayerFromList(message, EXPUtils.fishXPMap, MinecraftClient.getInstance().player);
+                    } else if (!message.contains("Hide") && MiscUtils.isWordFromListInString(message, EXPUtils.cookingXPMap.keySet().stream().toList())) {
+                        ci.cancel();
+                        sendMessageToPlayerFromList(message, EXPUtils.cookingXPMap, MinecraftClient.getInstance().player);
+                    } else if ((message.contains("Log") || message.contains("Bark")) && MiscUtils.isWordFromListInString(message, EXPUtils.foragingXPMap.keySet().stream().toList())) {
+                        ci.cancel();
+                        sendMessageToPlayerFromList(message, EXPUtils.foragingXPMap, MinecraftClient.getInstance().player);
+                    } else if (message.contains("Handle") && MiscUtils.isWordFromListInString(message, EXPUtils.foragingXPMap.keySet().stream().toList())) {
+                        ci.cancel();
+                        sendMessageToPlayerFromList(message, EXPUtils.carvingXPMap, MinecraftClient.getInstance().player);
+                    } else if (MiscUtils.isWordFromListInString(message, EXPUtils.farmingXPMap.keySet().stream().toList())) {
+                        ci.cancel();
+                        sendMessageToPlayerFromList(message, EXPUtils.farmingXPMap, MinecraftClient.getInstance().player);
+                    } else if ((message.contains("Ore") || message.contains("Chunk") || message.contains("Coal") || message.contains("Ice")) && MiscUtils.isWordFromListInString(message, EXPUtils.miningXPMap.keySet().stream().toList())) {
+                        ci.cancel();
+                        sendMessageToPlayerFromList(message, EXPUtils.miningXPMap, MinecraftClient.getInstance().player);
+                    }
                 }
             }
         }
