@@ -64,14 +64,14 @@ public class IslesAddonsConfig {
         if (key.endsWith(".min") || key.endsWith(".max") || key.endsWith(".step"))
             return null;
         String tooltipKey = "option.isles-addons." + key + ".tooltip";
-        CyclingButtonWidget.TooltipFactory tooltip = Language.getInstance().hasTranslation(tooltipKey) ? (client -> MinecraftClient.getInstance().textRenderer.wrapLines((StringVisitable) new TranslatableText(tooltipKey), 200)) : (__ -> List.of());
+        CyclingButtonWidget.TooltipFactory tooltip = Language.getInstance().hasTranslation(tooltipKey) ? (client -> MinecraftClient.getInstance().textRenderer.wrapLines(new TranslatableText(tooltipKey), 200)) : (__ -> List.of());
         Object value = entry.getValue();
         String translationKey = "option.isles-addons." + key;
         if (value instanceof Number) {
-            Number min = (Number)CONFIG.get(key + ".min", Number.class);
-            Number max = (Number)CONFIG.get(key + ".max", Number.class);
-            Number step = (Number)CONFIG.get(key + ".step", Number.class);
-            DoubleOption class_4067 = new DoubleOption(translationKey, min.doubleValue(), max.doubleValue(), step.floatValue(), __ -> CONFIG.get(key, Number.class).doubleValue(), (__, v) -> CONFIG.put(key, v), (__, ___) -> new TranslatableText(translationKey), tooltip);
+            Number min = CONFIG.get(key + ".min", Number.class);
+            Number max = CONFIG.get(key + ".max", Number.class);
+            Number step = CONFIG.get(key + ".step", Number.class);
+            DoubleOption doubleOption = new DoubleOption(translationKey, min.doubleValue(), max.doubleValue(), step.floatValue(), __ -> CONFIG.get(key, Number.class).doubleValue(), (__, v) -> CONFIG.put(key, v), (__, ___) -> new TranslatableText(translationKey), tooltip);
         } else if (value instanceof Boolean) {
             cyclingOption = CyclingOption.create(translationKey, __ -> CONFIG.get(key, Boolean.class), (__, ___, v) -> CONFIG.put(key, v)).tooltip(client -> tooltip);
         } else {
