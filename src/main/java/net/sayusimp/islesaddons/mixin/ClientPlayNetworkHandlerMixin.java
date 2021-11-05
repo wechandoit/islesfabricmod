@@ -49,7 +49,10 @@ public class ClientPlayNetworkHandlerMixin {
                     } else if (MiscUtils.isWordFromListInString(message, EXPUtils.farmingXPMap.keySet().stream().toList())) {
                         ci.cancel();
                         sendMessageToPlayerFromList(message, EXPUtils.farmingXPMap, MinecraftClient.getInstance().player);
-                    } else if ((message.contains("Ore") || message.contains("Chunk") || message.contains("Coal") || message.contains("Ice")) && MiscUtils.isWordFromListInString(message, EXPUtils.miningXPMap.keySet().stream().toList())) {
+                    } else if ((message.contains("Ore") || message.contains("Chunk")
+                            || message.contains("Coal") || message.contains("Ice")
+                            || message.contains("Essence") || message.contains("Slab")
+                            || message.contains("Cannonball")) && MiscUtils.isWordFromListInString(message, EXPUtils.miningXPMap.keySet().stream().toList())) {
                         ci.cancel();
                         sendMessageToPlayerFromList(message, EXPUtils.miningXPMap, MinecraftClient.getInstance().player);
                     }
