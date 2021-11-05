@@ -22,10 +22,10 @@ public class IslesAddonsOptionsScreen extends GameOptionsScreen {
 
     @Override
     protected void init() {
-        this.buttons = new ButtonListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
-        this.buttons.addAll(IslesAddonsConfig.getOptions());
-        addSelectableChild(this.buttons);
-        addDrawableChild(new ButtonWidget(this.width / 2 - 200, this.height - 27, 200, 20, ScreenTexts.DONE , __ -> {
+        buttons = new ButtonListWidget(client, width, height, 32, height - 32, 25);
+        buttons.addAll(IslesAddonsConfig.getOptions());
+        addSelectableChild(buttons);
+        addDrawableChild(new ButtonWidget(width / 2 - 200, height - 27, 200, 20, ScreenTexts.DONE , __ -> {
             IslesAddonsConfig.save();
             Objects.requireNonNull(this.client).setScreen(this.parent);
         }));
@@ -34,10 +34,10 @@ public class IslesAddonsOptionsScreen extends GameOptionsScreen {
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         renderBackground(matrices);
-        this.buttons.render(matrices, mouseX, mouseY, delta);
-        drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 5, 16777215);
+        buttons.render(matrices, mouseX, mouseY, delta);
+        drawCenteredText(matrices, textRenderer, title, width / 2, 5, 16777215);
         super.render(matrices, mouseX, mouseY, delta);
-        List<OrderedText> tooltip = getHoveredButtonTooltip(this.buttons, mouseX, mouseY);
+        List<OrderedText> tooltip = getHoveredButtonTooltip(buttons, mouseX, mouseY);
         if (tooltip != null)
             renderOrderedTooltip(matrices, tooltip, mouseX, mouseY);
     }

@@ -8,6 +8,7 @@ import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TextColor;
@@ -26,26 +27,18 @@ public class ParticleSpawnMixin {
 
     @Inject(method = "addParticle(Lnet/minecraft/particle/ParticleEffect;DDDDDD)Lnet/minecraft/client/particle/Particle;", at = @At("HEAD"), cancellable = true)
     public void renderParticles(ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ, CallbackInfoReturnable<Particle> cir) {
-        // green: minecraft:happy_villager
-        // purple: minecraft:basic_smoke_particle
-        // gold: minecraft:basic_flame_particle
-
         if ((parameters.getType() == ParticleTypes.HAPPY_VILLAGER && IslesAddonsConfig.CONFIG.get("enable-green-qte-notifier", Boolean.class))
-                || (parameters.getType() == ParticleTypes.SMOKE && IslesAddonsConfig.CONFIG.get("enable-purple-qte-notifier", Boolean.class))
+                || (parameters.getType() == ParticleTypes.DRAGON_BREATH && IslesAddonsConfig.CONFIG.get("enable-purple-qte-notifier", Boolean.class))
                 || (parameters.getType() == ParticleTypes.FLAME && IslesAddonsConfig.CONFIG.get("enable-gold-qte-notifier", Boolean.class))) {
-            Vec3d particleLoc = new Vec3d(x, y, z);
             Box particleBox = new Box(x - 0.5, y - 0.5, z - 0.5, x + 0.5, y + 0.5, z + 0.5);
             // get closest entity of type ItemEntity to particleLoc
             List<Entity> nearbyDroppedItems = MinecraftClient.getInstance().world.getOtherEntities(MinecraftClient.getInstance().player, particleBox, (entity -> entity.getType() == EntityType.ITEM));
             for (Entity e : nearbyDroppedItems) {
                 if (!isBlockTypeNearby(e, 1)) {
-                    MinecraftClient.getInstance().player.sendMessage(new LiteralText("There is a QTE nearby...").styled(style -> style.withColor(TextColor.parse("#80FF80"))), false);
+                    MinecraftClient.getInstance().player.sendMessage(new LiteralText("There is a QTE nearby...").styled(style -> style.withColor(TextColor.parse(getColorFromType(parameters.getType())))), false);
                 }
             }
         }
-
-        /*if (MinecraftClient.getInstance().player.getPos().distanceTo(particleLoc) < 5)
-            System.out.println(parameters.asString() + ": x: " + x + " y: " + y + " z: " + z);*/
     }
 
     private boolean isBlockTypeNearby(Entity e, int range) {
@@ -58,5 +51,15 @@ public class ParticleSpawnMixin {
             }
         }
         return false;
+    }
+
+    private String getColorFromType(ParticleType<?> type) {
+        if (type == ParticleTypes.HAPPY_VILLAGER) {
+            return "#80FF80";
+        } else if (type == ParticleTypes.DRAGON_BREATH) {
+            return "#AC71D9";
+        } else {
+            return "#EBC738";
+        }
     }
 }
