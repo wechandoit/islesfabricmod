@@ -5,9 +5,11 @@
 
 ## Features
  - Discord Rich Presence
+ - QTE Notifier (each tier is toggleable)
  - Fishing/Woodcutting/Mining/Farming/Cooking XP values in chat
  - Amount of items displayed on the crate icon
  - Rare fishing drop notifier (title on the screen, excluding fishing caskets)
+ - ModMenu Support
 
 ## Credits
  - TomEngMaster, ThatGravyBoat, BiscuitDevelopment, CDAGaming, and jagrosh for IPCClient (and some rich presence code)
