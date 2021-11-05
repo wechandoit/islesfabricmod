@@ -58,7 +58,7 @@ public class IslesAddonsConfig {
     }
 
     private static Option toOption(Map.Entry<String, Object> entry) {
-        CyclingOption cyclingOption = null;
+        Option option = null;
         String key = entry.getKey();
         if (key.endsWith(".min") || key.endsWith(".max") || key.endsWith(".step"))
             return null;
@@ -70,12 +70,12 @@ public class IslesAddonsConfig {
             Number min = CONFIG.get(key + ".min", Number.class);
             Number max = CONFIG.get(key + ".max", Number.class);
             Number step = CONFIG.get(key + ".step", Number.class);
-            DoubleOption doubleOption = new DoubleOption(translationKey, min.doubleValue(), max.doubleValue(), step.floatValue(), __ -> CONFIG.get(key, Number.class).doubleValue(), (__, v) -> CONFIG.put(key, v), (__, ___) -> new TranslatableText(translationKey), tooltip);
+            option = new DoubleOption(translationKey, min.doubleValue(), max.doubleValue(), step.floatValue(), __ -> CONFIG.get(key, Number.class).doubleValue(), (__, v) -> CONFIG.put(key, v), (__, ___) -> new TranslatableText(translationKey), tooltip);
         } else if (value instanceof Boolean) {
-            cyclingOption = CyclingOption.create(translationKey, keys -> CONFIG.get(key, Boolean.class), (keys, ___, v) -> CONFIG.put(key, v)).tooltip(client -> tooltip);
+            option = CyclingOption.create(translationKey, keys -> CONFIG.get(key, Boolean.class), (keys, ___, v) -> CONFIG.put(key, v)).tooltip(client -> tooltip);
         } else {
             throw new IllegalStateException();
         }
-        return cyclingOption;
+        return option;
     }
 }
