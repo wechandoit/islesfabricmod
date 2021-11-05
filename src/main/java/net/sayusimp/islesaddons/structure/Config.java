@@ -1,4 +1,4 @@
-package net.sayusimp.islesaddons.utils;
+package net.sayusimp.islesaddons.structure;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

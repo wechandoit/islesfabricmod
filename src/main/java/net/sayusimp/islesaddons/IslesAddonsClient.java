@@ -1,4 +1,4 @@
-package net.sayusimp.islesaddons.client;
+package net.sayusimp.islesaddons;
 
 import com.jagrosh.discordipc.IPCClient;
 import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
@@ -10,8 +10,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import net.minecraft.client.MinecraftClient;
 import net.sayusimp.islesaddons.config.IslesAddonsConfig;
-import net.sayusimp.islesaddons.utils.DiscordUtils;
-import net.sayusimp.islesaddons.utils.MiscUtils;
+import net.sayusimp.islesaddons.util.DiscordUtils;
+import net.sayusimp.islesaddons.util.MiscUtils;
 
 import java.time.OffsetDateTime;
 import java.util.List;

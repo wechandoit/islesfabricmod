@@ -1,4 +1,4 @@
-package net.sayusimp.islesaddons.utils;
+package net.sayusimp.islesaddons.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
@@ -6,6 +6,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SkullItem;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.scoreboard.ScoreboardPlayerScore;
@@ -13,7 +14,8 @@ import net.minecraft.scoreboard.Team;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;
-import net.sayusimp.islesaddons.client.IslesAddonsClient;
+import net.sayusimp.islesaddons.IslesAddonsClient;
+import net.sayusimp.islesaddons.config.IslesAddonsConfig;
 
 import java.util.*;
 
@@ -134,5 +136,17 @@ public class MiscUtils {
         matrices.pop();
         RenderSystem.disableBlend();
 
+    }
+
+    public static void renderAmountOnCrates(ItemStack stack, int x, int y, int z) {
+        if (IslesAddonsConfig.CONFIG.get("enable-crate-icon-amount", Boolean.class)) {
+            if (MiscUtils.isCrate(stack)) {
+                NbtCompound nbt = stack.getNbt();
+                NbtCompound nbtDisplay = nbt.getCompound(ItemStack.DISPLAY_KEY);
+                String rawLore = nbtDisplay.get(ItemStack.LORE_KEY).toString();
+                int amount = MiscUtils.getAmountInCrate(rawLore);
+                renderAmountText(new MatrixStack(), stack, x, y, z, amount);
+            }
+        }
     }
 }

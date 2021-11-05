@@ -7,8 +7,8 @@ import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TextColor;
 import net.sayusimp.islesaddons.config.IslesAddonsConfig;
-import net.sayusimp.islesaddons.utils.EXPUtils;
-import net.sayusimp.islesaddons.utils.MiscUtils;
+import net.sayusimp.islesaddons.util.EXPUtils;
+import net.sayusimp.islesaddons.util.MiscUtils;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -28,15 +28,12 @@ public class ClientPlayNetworkHandlerMixin {
     private MinecraftClient client;
 
     @Inject(method = "onGameMessage", at = @At("HEAD"), cancellable = true)
-    public void onGameMessage(GameMessageS2CPacket packet, CallbackInfo ci)
-    {
+    public void onGameMessage(GameMessageS2CPacket packet, CallbackInfo ci) {
 
         if (IslesAddonsConfig.CONFIG.get("enable-custom-message", Boolean.class)) {
             if (MiscUtils.onIsles()) {
                 String message = packet.getMessage().getString();
                 if (message.contains("[ITEM]")) {
-                    //MinecraftClient.getInstance().player.sendChatMessage("no");
-                    // check for rare item
                     if (message.contains("Raw") && MiscUtils.isWordFromListInString(message, EXPUtils.fishXPMap.keySet().stream().toList())) {
                         ci.cancel();
                         sendMessageToPlayerFromList(message, EXPUtils.fishXPMap, MinecraftClient.getInstance().player);
@@ -61,54 +58,53 @@ public class ClientPlayNetworkHandlerMixin {
         }
     }
 
-    private boolean sendMessageToPlayerFromList(String message, Map<String, Integer> xpmap, ClientPlayerEntity player)
-    {
+    private void sendMessageToPlayerFromList(String message, Map<String, Integer> xpmap, ClientPlayerEntity player) {
         Stack stack = MiscUtils.getStackFromItemResourceString(message.substring(7));
-
         HashMap<String, Integer> itemAmountMap = new HashMap<>();
         int maxAmount = 0;
-        while(stack.stream().count() >= 2) {
+
+        while (stack.stream().count() >= 2) {
             String type = MiscUtils.getWordFromListInString(String.valueOf(stack.pop()), xpmap.keySet().stream().toList());
             int amount = Integer.parseInt(String.valueOf(stack.pop()));
-            if (amount > maxAmount) maxAmount = amount;
-            if (itemAmountMap.containsKey(type))
+            if (amount > maxAmount) {
+                maxAmount = amount;
+            }
+            if (itemAmountMap.containsKey(type)) {
                 itemAmountMap.put(type, itemAmountMap.get(type) + amount);
-            else
+            } else {
                 itemAmountMap.put(type, amount);
+            }
         }
 
         int totalXP = 0;
-        boolean hasBark = false, hasLog = false;
-        for (String type : itemAmountMap.keySet())
-        {
+        boolean hasBark = false, hasLog = false, isCooking = false;
+        for (String type : itemAmountMap.keySet()) {
             if (type.contains("Bark")) hasBark = true;
             if (type.contains("Log")) hasLog = true;
+            if (EXPUtils.cookingXPMap.keySet().contains(type)) isCooking = true;
+
 
             if (!(hasBark && hasLog))
-                totalXP += xpmap.get(type) * itemAmountMap.get(type);
+                if (!isCooking) {
+                    totalXP += xpmap.get(type) * itemAmountMap.get(type);
+                } else {
+                    totalXP += xpmap.get(type);
+                    maxAmount = 1;
+                }
         }
 
-        if(MinecraftClient.getInstance().player != null)
-        {
+        if (MinecraftClient.getInstance().player != null) {
             int finalMaxAmount = maxAmount;
-            MinecraftClient.getInstance().player.sendMessage(new LiteralText("+" + String.valueOf(totalXP) + " XP (" + String.join(", ", MiscUtils.getAmountListFromAmountMap(itemAmountMap)) + ")").styled(s -> s.withColor(TextColor.parse(getColorFromAmount(finalMaxAmount )))), false);
-            return true;
-        } else
-        {
-            return false;
+            MinecraftClient.getInstance().player.sendMessage(new LiteralText("+" + String.valueOf(totalXP) + " XP (" + String.join(", ", MiscUtils.getAmountListFromAmountMap(itemAmountMap)) + ")").styled(s -> s.withColor(TextColor.parse(getColorFromAmount(finalMaxAmount)))), false);
         }
     }
 
-    private String getColorFromAmount(int amount)
-    {
-        if (amount == 1)
-        {
+    private String getColorFromAmount(int amount) {
+        if (amount == 1) {
             return "#71D9AA";
-        } else if (amount > 1 && amount <= 10)
-        {
+        } else if (amount > 1 && amount <= 10) {
             return "#AC71D9";
-        } else
-        {
+        } else {
             return "#EBC738";
         }
     }

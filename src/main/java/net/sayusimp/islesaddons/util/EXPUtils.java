@@ -1,4 +1,4 @@
-package net.sayusimp.islesaddons.utils;
+package net.sayusimp.islesaddons.util;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -103,6 +103,7 @@ public class EXPUtils {
         // put("Parrot Stew", );
         put("Baked Potato", 18);
         put("Grilled Cheese", 35);
+        put("Grilled Brumblebulb", 52);
         put("Tomato Soup", 35);
         put("Roasted Beet", 48);
         put("Corn on the Cob", 50);

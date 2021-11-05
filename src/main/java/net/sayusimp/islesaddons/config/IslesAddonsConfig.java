@@ -7,10 +7,9 @@ import net.minecraft.client.gui.widget.CyclingButtonWidget;
 import net.minecraft.client.option.CyclingOption;
 import net.minecraft.client.option.DoubleOption;
 import net.minecraft.client.option.Option;
-import net.minecraft.text.StringVisitable;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Language;
-import net.sayusimp.islesaddons.utils.Config;
+import net.sayusimp.islesaddons.structure.Config;
 
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -73,7 +72,7 @@ public class IslesAddonsConfig {
             Number step = CONFIG.get(key + ".step", Number.class);
             DoubleOption doubleOption = new DoubleOption(translationKey, min.doubleValue(), max.doubleValue(), step.floatValue(), __ -> CONFIG.get(key, Number.class).doubleValue(), (__, v) -> CONFIG.put(key, v), (__, ___) -> new TranslatableText(translationKey), tooltip);
         } else if (value instanceof Boolean) {
-            cyclingOption = CyclingOption.create(translationKey, __ -> CONFIG.get(key, Boolean.class), (__, ___, v) -> CONFIG.put(key, v)).tooltip(client -> tooltip);
+            cyclingOption = CyclingOption.create(translationKey, keys -> CONFIG.get(key, Boolean.class), (keys, ___, v) -> CONFIG.put(key, v)).tooltip(client -> tooltip);
         } else {
             throw new IllegalStateException();
         }

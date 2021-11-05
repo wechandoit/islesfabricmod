@@ -1,5 +1,8 @@
 {
   "enable-crate-icon-amount": true,
   "enable-custom-message": true,
-  "enable-rare-fishing-title": true
+  "enable-rare-fishing-title": true,
+  "enable-green-qte-notifier": false,
+  "enable-purple-qte-notifier": true,
+  "enable-gold-qte-notifier": true
 }

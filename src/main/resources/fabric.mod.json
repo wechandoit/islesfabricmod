@@ -13,7 +13,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "net.sayusimp.islesaddons.client.IslesAddonsClient"
+      "net.sayusimp.islesaddons.IslesAddonsClient"
     ],
     "modmenu": [
       "net.sayusimp.islesaddons.config.IslesAddonsModMenu"

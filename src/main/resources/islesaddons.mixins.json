@@ -9,7 +9,8 @@
     "ChatMessagesMixin",
     "ClientPlayNetworkHandlerMixin",
     "HotbarRenderMixin",
-    "ItemRenderMixin"
+    "ItemRenderMixin",
+    "ParticleSpawnMixin"
   ],
   "injectors": {
     "defaultRequire": 1

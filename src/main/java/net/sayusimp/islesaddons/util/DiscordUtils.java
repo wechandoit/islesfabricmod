@@ -1,8 +1,14 @@
-package net.sayusimp.islesaddons.utils;
+package net.sayusimp.islesaddons.util;
 
 import com.jagrosh.discordipc.entities.RichPresence;
 import com.jagrosh.discordipc.entities.RichPresenceButton;
-import net.sayusimp.islesaddons.client.IslesAddonsClient;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.resource.ResourceReloader;
+import net.sayusimp.islesaddons.IslesAddonsClient;
 
 public class DiscordUtils {
 
@@ -25,4 +31,5 @@ public class DiscordUtils {
             e.printStackTrace();
         }
     }
+
 }

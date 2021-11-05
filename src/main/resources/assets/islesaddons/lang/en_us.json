@@ -5,5 +5,11 @@
   "option.isles-addons.enable-custom-message": "Harvest Item Message",
   "option.isles-addons.enable-custom-message.tooltip": "Enable/Disable the Custom Resource Drop message (shows XP)",
   "option.isles-addons.enable-rare-fishing-title": "Rare Fishing Drop Title",
-  "option.isles-addons.enable-rare-fishing-title.tooltip": "Enable/Disable the Rare Fishing Title on a rare resource drop"
+  "option.isles-addons.enable-rare-fishing-title.tooltip": "Enable/Disable the Rare Fishing Title on a rare resource drop",
+  "option.isles-addons.enable-green-qte-notifier": "Green QTE Message",
+  "option.isles-addons.enable-green-qte-notifier.tooltip": "Get notified in chat if there is a Green QTE nearby",
+  "option.isles-addons.enable-purple-qte-notifier": "Epic QTE Message",
+  "option.isles-addons.enable-purple-qte-notifier.tooltip": "Get notified in chat if there is a Purple QTE nearby",
+  "option.isles-addons.enable-gold-qte-notifier": "Legendary QTE Message",
+  "option.isles-addons.enable-gold-qte-notifier.tooltip": "Get notified in chat if there is a Gold QTE nearby"
 }
