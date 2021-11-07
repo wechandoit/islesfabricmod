@@ -85,7 +85,9 @@ public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitiali
                         if (scoreboard.get(1).startsWith("Rank: ")) DiscordUtils.updateRPC(scoreboard.get(2), "In Hub");
                         else  DiscordUtils.updateRPC(scoreboard.get(2), "In Game");
                     }
-                } else DiscordUtils.updateRPC("In Game Menu", "");
+                } else {
+                    if (!MinecraftClient.getInstance().isInSingleplayer()) DiscordUtils.updateRPC("In Game Menu", "");
+                }
             }
         }
     }
