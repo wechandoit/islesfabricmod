@@ -5,6 +5,7 @@ import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
 import net.sayusimp.islesaddons.config.IslesAddonsConfig;
 import net.sayusimp.islesaddons.util.EXPUtils;
@@ -42,7 +43,8 @@ public class ClientPlayNetworkHandlerMixin {
                         sendMessageToPlayerFromList(message, EXPUtils.cookingXPMap, MinecraftClient.getInstance().player);
                     } else if ((message.contains("Log") || message.contains("Bark")) && MiscUtils.isWordFromListInString(message, EXPUtils.foragingXPMap.keySet().stream().toList())) {
                         ci.cancel();
-                        sendMessageToPlayerFromList(message, EXPUtils.foragingXPMap, MinecraftClient.getInstance().player);
+                        if (message.contains("🪓")) sendMessageToPlayerFromList(message, EXPUtils.foragingXPMap, MinecraftClient.getInstance().player, true);
+                        else sendMessageToPlayerFromList(message, EXPUtils.foragingXPMap, MinecraftClient.getInstance().player);
                     } else if (message.contains("Handle") && MiscUtils.isWordFromListInString(message, EXPUtils.foragingXPMap.keySet().stream().toList())) {
                         ci.cancel();
                         sendMessageToPlayerFromList(message, EXPUtils.carvingXPMap, MinecraftClient.getInstance().player);
@@ -55,6 +57,9 @@ public class ClientPlayNetworkHandlerMixin {
                             || message.contains("Cannonball")) && MiscUtils.isWordFromListInString(message, EXPUtils.miningXPMap.keySet().stream().toList())) {
                         ci.cancel();
                         sendMessageToPlayerFromList(message, EXPUtils.miningXPMap, MinecraftClient.getInstance().player);
+                    } else if ((message.contains("Molten") || message.contains("Bar")) && MiscUtils.isWordFromListInString(message, EXPUtils.smeltingXPMap.keySet().stream().toList())) {
+                        ci.cancel();
+                        sendMessageToPlayerFromList(message, EXPUtils.smeltingXPMap, MinecraftClient.getInstance().player);
                     }
                 }
             }
@@ -62,6 +67,11 @@ public class ClientPlayNetworkHandlerMixin {
     }
 
     private void sendMessageToPlayerFromList(String message, Map<String, Integer> xpmap, ClientPlayerEntity player) {
+        sendMessageToPlayerFromList(message, xpmap, player, false);
+    }
+
+    private void sendMessageToPlayerFromList(String message, Map<String, Integer> xpmap, ClientPlayerEntity player, boolean isLumberBuff) {
+        float multiplier = isLumberBuff ? 1.5F : 1;
         Stack stack = MiscUtils.getStackFromItemResourceString(message.substring(7));
         HashMap<String, Integer> itemAmountMap = new HashMap<>();
         int maxAmount = 0;
@@ -89,16 +99,18 @@ public class ClientPlayNetworkHandlerMixin {
 
             if (!(hasBark && hasLog))
                 if (!isCooking) {
-                    totalXP += xpmap.get(type) * itemAmountMap.get(type);
+                    totalXP += xpmap.get(type) * itemAmountMap.get(type) * multiplier;
                 } else {
-                    totalXP += xpmap.get(type);
+                    totalXP += xpmap.get(type) * multiplier;
                     maxAmount = 1;
                 }
         }
 
         if (MinecraftClient.getInstance().player != null) {
             int finalMaxAmount = maxAmount;
-            MinecraftClient.getInstance().player.sendMessage(new LiteralText("+" + String.valueOf(totalXP) + " XP (" + String.join(", ", MiscUtils.getAmountListFromAmountMap(itemAmountMap)) + ")").styled(s -> s.withColor(TextColor.parse(getColorFromAmount(finalMaxAmount)))), false);
+            Text msg = new LiteralText("+" + String.valueOf(totalXP) + " XP (" + String.join(", ", MiscUtils.getAmountListFromAmountMap(itemAmountMap)) + ")").styled(s -> s.withColor(TextColor.parse(getColorFromAmount(finalMaxAmount))));
+            if (isLumberBuff) msg = msg.copy().append(new LiteralText(" +(x1.5 XP 🪓)").styled(style -> style.withColor(TextColor.parse("#C350C7"))));
+            MinecraftClient.getInstance().player.sendMessage(msg, false);
         }
     }
 

@@ -38,7 +38,7 @@ public class MiscUtils {
     public static Stack getStackFromItemResourceString(String message) {
         Stack stack = new Stack();
         for (String m : message.split(" ")) {
-            m = m.replace(",", "");
+            m = m.replace(",", "").replace("🪓", "");
             if (!m.contains("and")) {
                 if (stack.empty())
                     stack.push(m);

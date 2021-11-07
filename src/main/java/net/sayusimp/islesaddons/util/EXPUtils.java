@@ -34,6 +34,7 @@ public class EXPUtils {
         put("Raw Manta Ray", 224);
         // put("Raw Octopus", );
         put("Raw Sea Turtle", 250);
+        put("Raw Jellyfish", 250);
         // put("Raw Anglerfish", );
         // put("Raw Goliath Grouper", );
         // put("Raw Shark", );
@@ -219,6 +220,23 @@ public class EXPUtils {
         // put("Spectral Chunk", );
         // put("Netherite Ore", );
         // put("Blightstone Chunk", );
+    }};
+
+    public static HashMap<String, Integer> smeltingXPMap = new LinkedHashMap<String, Integer>() {{
+       put("Bronze Bar", 20);
+       put("Iron Bar", 30);
+       put("Molten Glass", 20);
+       put("Steel Bar", 100);
+       put("Silver Bar", 50);
+       put("Rhodonite Bar", 110);
+       put("Mithril Bar", 150);
+       put("Adamantium Bar", 200);
+       put("Gold Bar", 125);
+       put("Crimson Bar", 250);
+       // put("Obsidian Bar", );
+       // put("Spectral Bar", );
+       // put("Netherite Bar", );
+       // put("Blightstone Bar", );
     }};
 
 
