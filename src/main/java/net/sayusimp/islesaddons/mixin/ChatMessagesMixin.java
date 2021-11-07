@@ -17,8 +17,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 @Mixin(ChatHud.class)
@@ -45,35 +43,35 @@ public abstract class ChatMessagesMixin {
 
     @Inject(method = "addMessage(Lnet/minecraft/text/Text;I)V", at = @At("TAIL"))
     public void onChatMessage(Text text, int messageId, CallbackInfo ci) {
-        if (!sentStackMessage) {
-            Text stackText = null;
-            if (stackMessage != null && text.getString().equals(stackMessage.getString())) {
-                visibleMessages.clear(); // can't get the text out of OrderedText so we have to work around it
-                messages.removeIf(message -> message.getText().getString().equals(text.getString()));
-                if (lastMessage != null) removeLastSimilarMessage(lastMessage);
-                amount++;
-                Text amountString = new LiteralText(" (x" + amount + ")").styled(s -> s.withColor(TextColor.parse("#4DE3E3")));
-                if (text.getSiblings().isEmpty()) stackText = text.copy().setStyle(text.getStyle()).append(amountString);
-                else {
-                    text.getSiblings().add(amountString);
-                    stackText = text;
+        if (IslesAddonsConfig.CONFIG.get("enable-stack-chat", Boolean.class)) {
+            if (!sentStackMessage) {
+                Text stackText = null;
+                if (stackMessage != null && text.getString().equals(stackMessage.getString())) {
+                    if (amount == 1) removeLastSimilarMessage(stackMessage);
+                    if (stackMessage != null) removeLastSimilarMessage(stackMessage);
+                    if (lastMessage != null) removeLastSimilarMessage(lastMessage);
+                    amount++;
+
+                    Text amountString = new LiteralText(" (x" + amount + ")").styled(s -> s.withColor(TextColor.parse("#4DE3E3")));
+                    if (text.getSiblings().isEmpty()) {
+                        stackText = text.copy().setStyle(text.getStyle()).append(amountString);
+                    } else {
+                        text.getSiblings().add(amountString);
+                        stackText = text;
+                    }
+                } else {
+                    amount = 1;
+                    stackMessage = text;
+                    lastMessage = null;
                 }
-                System.out.println(text + " " + stackText);
+                if (amount > 1 && stackText != null && !ci.isCancelled()) {
+                    sentStackMessage = true;
+                    addMessage(stackText);
+                    lastMessage = stackText;
+                }
             } else {
-                amount = 1;
-                stackMessage = text;
-                lastMessage = null;
+                sentStackMessage = false;
             }
-            if (amount > 1 && stackText != null && !ci.isCancelled()) {
-                sentStackMessage = true;
-                for (ChatHudLine<Text> line : messages) {
-                    visibleMessages.add(new ChatHudLine(line.getCreationTick(), line.getText().asOrderedText(), line.getId()));
-                }
-                addMessage(stackText);
-                lastMessage = stackText;
-            }
-        } else {
-            sentStackMessage = false;
         }
 
 
@@ -89,18 +87,14 @@ public abstract class ChatMessagesMixin {
     }
 
     @Inject(method = "clear", at = @At("HEAD"))
-    public void onClearMessages(boolean clearHistory, CallbackInfo ci)
-    {
+    public void onClearMessages(boolean clearHistory, CallbackInfo ci) {
         messages.clear();
     }
 
-    private void removeLastSimilarMessage(Text similar)
-    {
+    private void removeLastSimilarMessage(Text similar) {
         int line = -1;
-        for (int i = messages.size()-1; i >= 0; i--)
-        {
-            if (messages.get(i).getText().getString().equals(similar.getString()))
-            {
+        for (int i = messages.size() - 1; i >= 0; i--) {
+            if (messages.get(i).getText().getString().equals(similar.getString())) {
                 line = i;
                 System.out.println(messages.get(i));
             }
@@ -108,9 +102,9 @@ public abstract class ChatMessagesMixin {
         if (line >= 0) removeMessage(line);
     }
 
-    private void removeMessage(int line)
-    {
+    private void removeMessage(int line) {
         if (messages.size() > line) messages.remove(line);
+        if (visibleMessages.size() > line) visibleMessages.remove(line);
         System.out.println(messages);
     }
 }

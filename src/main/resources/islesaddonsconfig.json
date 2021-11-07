@@ -4,5 +4,6 @@
   "enable-rare-fishing-title": true,
   "enable-green-qte-notifier": false,
   "enable-purple-qte-notifier": true,
-  "enable-gold-qte-notifier": true
+  "enable-gold-qte-notifier": true,
+  "enable-stack-chat": true
 }

@@ -11,5 +11,7 @@
   "option.isles-addons.enable-purple-qte-notifier": "Epic QTE Message",
   "option.isles-addons.enable-purple-qte-notifier.tooltip": "Get notified in chat if there is a Purple QTE nearby",
   "option.isles-addons.enable-gold-qte-notifier": "Legendary QTE Message",
-  "option.isles-addons.enable-gold-qte-notifier.tooltip": "Get notified in chat if there is a Gold QTE nearby"
+  "option.isles-addons.enable-gold-qte-notifier.tooltip": "Get notified in chat if there is a Gold QTE nearby",
+  "option.isles-addons.enable-stack-chat": "Stack Chat",
+  "option.isles-addons.enable-stack-chat.tooltip": "Enable/Disable message stacking in chat (duplicates will be stacked)"
 }
