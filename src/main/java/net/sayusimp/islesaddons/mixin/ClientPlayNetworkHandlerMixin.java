@@ -79,7 +79,7 @@ public class ClientPlayNetworkHandlerMixin {
         while (stack.stream().count() >= 2) {
             String type = MiscUtils.getWordFromListInString(String.valueOf(stack.pop()), xpmap.keySet().stream().toList());
             int amount = Integer.parseInt(String.valueOf(stack.pop()));
-            if (amount > maxAmount) {
+            if (amount > maxAmount && xpmap.get(type) > 0) {
                 maxAmount = amount;
             }
             if (itemAmountMap.containsKey(type)) {
