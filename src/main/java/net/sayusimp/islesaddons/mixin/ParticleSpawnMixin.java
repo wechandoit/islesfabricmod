@@ -14,6 +14,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.math.Box;
 import net.sayusimp.islesaddons.config.IslesAddonsConfig;
+import net.sayusimp.islesaddons.util.MiscUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,6 +25,8 @@ import java.util.List;
 @Mixin(ParticleManager.class)
 public class ParticleSpawnMixin {
 
+    MinecraftClient client = MinecraftClient.getInstance();
+
     @Inject(method = "addParticle(Lnet/minecraft/particle/ParticleEffect;DDDDDD)Lnet/minecraft/client/particle/Particle;", at = @At("HEAD"), cancellable = true)
     public void renderParticles(ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ, CallbackInfoReturnable<Particle> cir) {
         if ((parameters.getType() == ParticleTypes.HAPPY_VILLAGER && IslesAddonsConfig.CONFIG.get("enable-green-qte-notifier", Boolean.class))
@@ -31,10 +34,11 @@ public class ParticleSpawnMixin {
                 || (parameters.getType() == ParticleTypes.FLAME && IslesAddonsConfig.CONFIG.get("enable-gold-qte-notifier", Boolean.class))) {
             Box particleBox = new Box(x - 0.15, y - 0.15, z - 0.15, x + 0.15, y + 0.15, z + 0.15);
             // get closest entity of type ItemEntity to particleLoc
-            List<Entity> nearbyDroppedItems = MinecraftClient.getInstance().world.getOtherEntities(MinecraftClient.getInstance().player, particleBox, (entity -> entity.getType() == EntityType.ITEM));
+            List<Entity> nearbyDroppedItems = client.world.getOtherEntities(client.player, particleBox, (entity -> entity.getType() == EntityType.ITEM));
+            List<Entity> nearbyMounts = client.world.getOtherEntities(client.player, particleBox, (entity -> MiscUtils.mountTypes.contains(entity.getType())));
             for (Entity e : nearbyDroppedItems) {
-                if (!isBlockTypeNearby(e, 1)) {
-                    MinecraftClient.getInstance().player.sendMessage(new LiteralText("There is a QTE nearby...").styled(style -> style.withColor(TextColor.parse(getColorFromType(parameters.getType())))), false);
+                if (!isBlockTypeNearby(e, 1) && nearbyMounts.isEmpty()) {
+                    client.player.sendMessage(new LiteralText("There is a QTE nearby...").styled(style -> style.withColor(TextColor.parse(getColorFromType(parameters.getType())))), false);
                 }
             }
         }
@@ -44,7 +48,7 @@ public class ParticleSpawnMixin {
         for (int x = -range; x <= range; x++) {
             for (int y = -range; y <= range; y++) {
                 for (int z = -range; z <= range; z++) {
-                    Block checkBlock = MinecraftClient.getInstance().world.getBlockState(e.getBlockPos().add(x, y, z)).getBlock();
+                    Block checkBlock = client.world.getBlockState(e.getBlockPos().add(x, y, z)).getBlock();
                     if (checkBlock.equals(Blocks.CAMPFIRE) || checkBlock.equals(Blocks.IRON_TRAPDOOR)) return true;
                 }
             }
