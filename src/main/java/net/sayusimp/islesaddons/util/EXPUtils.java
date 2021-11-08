@@ -150,6 +150,7 @@ public class EXPUtils {
         put("Demon Bark", 350);
         put("Rough Amber", 0);
         put("Log", 15);
+        put("Acorn", 0);
     }};
 
     public static HashMap<String, Integer> carvingXPMap = new LinkedHashMap<String, Integer>() {{
@@ -220,6 +221,16 @@ public class EXPUtils {
         // put("Spectral Chunk", );
         // put("Netherite Ore", );
         // put("Blightstone Chunk", );
+        put("Rough Lapis", 0);
+        put("Rough Jade", 0);
+        put("Rough Amber", 0);
+        put("Rough Pearl", 0);
+        put("Rough Sapphire", 0);
+        put("Rough Diamond", 0);
+        put("Rough Emerald", 0);
+        put("Rough Amethyst", 0);
+        put("Rough Ruby", 0);
+        put("Rough Celestial", 0);
     }};
 
     public static HashMap<String, Integer> smeltingXPMap = new LinkedHashMap<String, Integer>() {{

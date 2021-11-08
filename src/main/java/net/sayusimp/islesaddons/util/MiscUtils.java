@@ -39,18 +39,23 @@ public class MiscUtils {
         Stack stack = new Stack();
         for (String m : message.split(" ")) {
             m = m.replace(",", "").replace("🪓", "");
-            if (!m.contains("and")) {
-                if (stack.empty())
-                    stack.push(m);
-                else {
-                    String peek = String.valueOf(stack.peek());
-                    if (peek.matches(".*\\d.*") || m.matches(".*\\d.*")) {
-                        stack.push(m);
-                    } else {
-                        stack.push(String.valueOf(stack.pop()) + " " + m);
+            if (stack.empty())
+                stack.push(m);
+            else {
+                String peek = String.valueOf(stack.peek());
+                if (peek.matches(".*\\d.*") || m.matches(".*\\d.*")) {
+                    String peekStack = String.valueOf(stack.peek());
+                    if (m.matches(".*\\d.*") && peekStack.substring(peekStack.length() - 3).contains("and")) {
+                        String n = String.valueOf(stack.pop());
+                        n = n.replace(" and", "");
+                        stack.push(n);
                     }
+                    stack.push(m);
+                } else {
+                    stack.push(String.valueOf(stack.pop()) + " " + m);
                 }
             }
+
         }
         return stack;
     }
