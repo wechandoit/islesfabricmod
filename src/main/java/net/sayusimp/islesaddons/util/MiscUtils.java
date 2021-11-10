@@ -46,7 +46,7 @@ public class MiscUtils {
     public static Stack getStackFromItemResourceString(String message) {
         Stack stack = new Stack();
         for (String m : message.split(" ")) {
-            m = m.replace(",", "").replace("🪓", "");
+            m = m.replace(",", "").replace("🪓", "").replace("☘", "");
             if (stack.empty())
                 stack.push(m);
             else {

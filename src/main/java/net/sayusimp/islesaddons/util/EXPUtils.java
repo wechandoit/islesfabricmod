@@ -12,25 +12,24 @@ public class EXPUtils {
         put("Raw Stone Crab", 30);
         put("Raw Cod", 36);
         put("Raw Oyster", 42);
-        put("Raw Trout", 48);
+        put("Raw Trout", 42);
         put("Raw Picklefish", 56);
         put("Raw Squid", 62);
-        put("Raw Salmon", 66);
-        put("Raw Clownfish", 69);
+        put("Raw Salmon", 78);
+        put("Raw Clownfish", 85);
         put("Raw Perch", 72);
         put("Raw Catfish", 88);
         put("Raw Urchin", 95);
         put("Raw Pike", 92);
         put("Raw Seahorse", 105);
-        put("Raw Pufferfish", 105);
-        put("Raw Starfish", 111);
+        put("Raw Pufferfish", 115);
+        put("Raw Starfish", 123);
         put("Raw Giant Snail", 135);
         put("Raw Sea Snake", 150);
         put("Raw Tuna", 165);
         put("Raw Lava Eel", 175);
         put("Raw Giant Crab", 185);
         put("Raw Grubler", 192);
-        put("Raw Sea Turtle", 200);
         put("Raw Manta Ray", 224);
         // put("Raw Octopus", );
         put("Raw Sea Turtle", 250);
@@ -151,6 +150,7 @@ public class EXPUtils {
         put("Rough Amber", 0);
         put("Log", 15);
         put("Acorn", 0);
+        put("Dark Rune", 0); // dreadknot trees drop dark runes too
     }};
 
     public static HashMap<String, Integer> carvingXPMap = new LinkedHashMap<String, Integer>() {{
