@@ -52,7 +52,8 @@ public abstract class ChatMessagesMixin {
                     if (lastMessage != null) removeLastSimilarMessage(lastMessage);
                     amount++;
 
-                    Text amountString = new LiteralText(" (x" + amount + ")").styled(s -> s.withColor(TextColor.parse("#4DE3E3")));
+                    Text amountString = new LiteralText(" (x" + amount + ")")
+                            .styled(s -> s.withColor(TextColor.parse("#4DE3E3")));
                     if (text.getSiblings().isEmpty()) {
                         stackText = text.copy().setStyle(text.getStyle()).append(amountString);
                     } else {

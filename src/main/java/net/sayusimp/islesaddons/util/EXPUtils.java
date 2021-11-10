@@ -18,10 +18,10 @@ public class EXPUtils {
         put("Raw Salmon", 66);
         put("Raw Clownfish", 69);
         put("Raw Perch", 72);
-        put("Raw Catfish", 82);
-        put("Raw Urchin", 84);
+        put("Raw Catfish", 88);
+        put("Raw Urchin", 95);
         put("Raw Pike", 92);
-        put("Raw Seahorse", 96);
+        put("Raw Seahorse", 105);
         put("Raw Pufferfish", 105);
         put("Raw Starfish", 111);
         put("Raw Giant Snail", 135);
@@ -210,7 +210,7 @@ public class EXPUtils {
         put("Rhodonite Ore", 125);
         put("Salt Chunk", 75);
         put("Mithril Ore", 185);
-        put("Ice", 100);
+        put("Ice", 90);
         // put("Granite Slab", );
         // put("Cannonball", );
         put("Adamantium Ore", 215);

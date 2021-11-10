@@ -18,8 +18,7 @@ public class HotbarRenderMixin extends DrawableHelper {
 
     // for crates
     @Inject(method = "renderHotbarItem", at = @At(value = "TAIL"))
-    public void renderHotbarItem(int x, int y, float tickDelta, PlayerEntity player, ItemStack stack, int seed, CallbackInfo ci)
-    {
+    public void renderHotbarItem(int x, int y, float tickDelta, PlayerEntity player, ItemStack stack, int seed, CallbackInfo ci) {
         MiscUtils.renderAmountOnCrates(stack, x, y, getZOffset());
     }
 }

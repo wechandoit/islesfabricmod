@@ -25,7 +25,7 @@ public class IslesAddonsOptionsScreen extends GameOptionsScreen {
         buttons = new ButtonListWidget(client, width, height, 32, height - 32, 25);
         buttons.addAll(IslesAddonsConfig.getOptions());
         addSelectableChild(buttons);
-        addDrawableChild(new ButtonWidget(width / 2 - 200, height - 27, 200, 20, ScreenTexts.DONE , __ -> {
+        addDrawableChild(new ButtonWidget(width / 2 - 200, height - 27, 200, 20, ScreenTexts.DONE, __ -> {
             IslesAddonsConfig.save();
             Objects.requireNonNull(this.client).setScreen(this.parent);
         }));

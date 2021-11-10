@@ -24,7 +24,8 @@ public class IslesAddonsConfig {
     public static final String FILE_NAME = "islesaddons.json";
 
     static {
-        ModContainer mod = FabricLoader.getInstance().getModContainer("islesaddons").orElseThrow(java.util.NoSuchElementException::new);
+        ModContainer mod = FabricLoader.getInstance().getModContainer("islesaddons")
+                .orElseThrow(java.util.NoSuchElementException::new);
         InputStream def = IslesAddonsConfig.class.getResourceAsStream(mod.getPath("islesaddonsconfig.json").toString());
         CONFIG = new Config(def);
     }
@@ -63,7 +64,8 @@ public class IslesAddonsConfig {
         if (key.endsWith(".min") || key.endsWith(".max") || key.endsWith(".step"))
             return null;
         String tooltipKey = "option.isles-addons." + key + ".tooltip";
-        CyclingButtonWidget.TooltipFactory tooltip = Language.getInstance().hasTranslation(tooltipKey) ? (client -> MinecraftClient.getInstance().textRenderer.wrapLines(new TranslatableText(tooltipKey), 200)) : (__ -> List.of());
+        CyclingButtonWidget.TooltipFactory tooltip = Language.getInstance().hasTranslation(tooltipKey) ?
+                (client -> MinecraftClient.getInstance().textRenderer.wrapLines(new TranslatableText(tooltipKey), 200)) : (__ -> List.of());
         Object value = entry.getValue();
         String translationKey = "option.isles-addons." + key;
         if (value instanceof Number) {
