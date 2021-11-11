@@ -167,16 +167,16 @@ public class EXPUtils {
 
     public static HashMap<String, Integer> farmingXPMap = new LinkedHashMap<String, Integer>() {{
         put("Apple", 8);
-        put("Orange", 12);
         put("Wheat", 12);
-        put("Lettuce", 18);
-        put("Potato", 20);
+        put("Orange", 16);
+        put("Lettuce", 16);
+        put("Potato", 18);
+        put("Flax", 20);
         put("Banana", 24);
         put("Nettle Leaf", 24);
         put("Tomato", 30);
         put("Cherry", 36);
         put("Carrot", 36);
-        put("Flax", 40);
         put("Blackberry", 48);
         put("Sugarcane", 48);
         put("Brumblebulb", 52);
@@ -185,6 +185,7 @@ public class EXPUtils {
         put("Viking Hops", 60);
         put("Beet", 65);
         put("Corn", 75);
+        put("Buglewart", 81);
         put("Garlic", 85);
         put("Bamboo", 95);
         put("Pyre Pepper", 125);
@@ -193,7 +194,6 @@ public class EXPUtils {
         // put("Volcanic Hop", );
         // put("Ghost Berry", );
         // put("Nether Wart", );
-        // put("Buglewart", );
         // put("Mandrake", );
     }};
 
@@ -234,21 +234,132 @@ public class EXPUtils {
     }};
 
     public static HashMap<String, Integer> smeltingXPMap = new LinkedHashMap<String, Integer>() {{
-       put("Bronze Bar", 20);
-       put("Iron Bar", 30);
-       put("Molten Glass", 20);
-       put("Steel Bar", 100);
-       put("Silver Bar", 50);
-       put("Rhodonite Bar", 110);
-       put("Mithril Bar", 150);
-       put("Adamantium Bar", 200);
-       put("Gold Bar", 125);
-       put("Crimson Bar", 250);
-       // put("Obsidian Bar", );
-       // put("Spectral Bar", );
-       // put("Netherite Bar", );
-       // put("Blightstone Bar", );
+        put("Bronze Bar", 20);
+        put("Iron Bar", 30);
+        put("Molten Glass", 20);
+        put("Steel Bar", 100);
+        put("Silver Bar", 50);
+        put("Rhodonite Bar", 110);
+        put("Mithril Bar", 150);
+        put("Adamantium Bar", 200);
+        put("Gold Bar", 125);
+        put("Crimson Bar", 250);
+        // put("Obsidian Bar", );
+        // put("Spectral Bar", );
+        // put("Netherite Bar", );
+        // put("Blightstone Bar", );
     }};
 
+    public static HashMap<String, Integer> artisanXPMap = new LinkedHashMap<String, Integer>() {{
 
+        put("Fishing Line", 50);
+        put("Enchanted Fishing Line", 75);
+        put("Radiant Fishing Line", 100);
+        put("Seer Fishing Line", 125);
+        put("Undead Fishing Line", 175);
+        // put("Dire Fishing Line", );
+        // put("Phantom Fishing Line", );
+        // put("Arcane Fishing Line", );
+        // put("Mystic Fishing Line", );
+
+        put("Enchanted Yarn", 40);
+        put("Radiant Yarn", 65);
+        put("Seer Yarn", 90);
+        put("Undead Yarn", 135);
+        // put("Dire Yarn", );
+        // put("Phantom Yarn", );
+        // put("Arcane Yarn", );
+        // put("Mystic Yarn", );
+        put("Bamboo String", 90);
+        put("Yarn", 20);
+        put("Bowstring", 25);
+        put("Straw", 30);
+        put("Rope", 75);
+
+        put("Tanned Rabbit Hide", 20);
+        put("Tanned Cow Hide", 40);
+        put("Tanned Fox Hide", 60);
+        put("Tanned Boar Hide", 80);
+        put("Tanned Camel Hide", 110);
+        // put("Tanned Bear Hide", );
+        // put("Tanned Zoar Hide", );
+        // put("Tanned Unicorn Hide", );
+        // put("Tanned Manticore Hide", );
+
+        put("Oak Handle", 27);
+        put("Birch Handle", 50);
+        put("Spruce Handle", 65);
+        put("Willow Handle", 90);
+        put("Acacia Handle", 120);
+
+        put("Lapis Lazuli Ring", 75);
+        put("Jade Ring", 90);
+        put("Amber Ring", 120);
+        put("Pearl Ring", 165);
+        // put("Sapphire Ring", );
+        // put("Diamond Ring", );
+        // put("Emerald Ring", );
+        // put("Ruby Ring", );
+        // put("Celestial Ring", );
+
+        put("Lapis Lazuli Necklace", 100);
+        put("Jade Necklace", 140);
+        put("Amber Necklace", 170);
+        put("Pearl Necklace", 215);
+        // put("Sapphire Necklace", );
+        // put("Diamond Necklace", );
+        // put("Emerald Necklace", );
+        // put("Ruby Necklace", );
+        // put("Celestial Necklace", );
+
+        put("Lapis Lazuli Amulet", 125);
+        put("Jade Amulet", 180);
+        // put("Amber Amulet", );
+        put("Pearl Amulet", 255);
+        // put("Sapphire Amulet", );
+        // put("Diamond Amulet", );
+        // put("Emerald Amulet", );
+        // put("Ruby Amulet", );
+        // put("Celestial Amulet", );
+
+        put("Lapis Fishing Net", 200);
+        put("Jade Fishing Net", 275);
+        put("Amber Fishing Net", 350);
+        put("Pearl Fishing Net", 425);
+        // put("Sapphire Fishing Net", );
+        // put("Diamond Fishing Net", );
+        // put("Emerald Fishing Net", );
+        // put("Ruby Fishing Net", );
+        // put("Celestial Fishing Net", );
+
+        put("Lapis Lazuli", 75);
+        put("Jade", 100);
+        put("Amber", 125);
+        put("Pearl", 175);
+        put("Sapphire", 225);
+        // put("Diamond", );
+        // put("Emerald", );
+        // put("Amethyst", );
+        // put("Ruby", );
+        // put("Celestial", );
+
+        put("Ring Mold", 15);
+        put("Necklace Mold", 45);
+        put("Amulet Mold", 60);
+        put("Magic Tablet", 60);
+        // put("Fishing Lure Mold", );
+
+        put("Bowl", 15);
+        put("Pan", 18);
+        put("Brick", 36);
+        put("Pot", 36);
+
+        put("Golden Lure", 140); // gives 8
+        put("Glass Bottle", 25);
+        put("Glass Pane", 75);
+        put("Empty Orb", 180);
+        put("Lure", 4);
+
+
+    }};
 }
