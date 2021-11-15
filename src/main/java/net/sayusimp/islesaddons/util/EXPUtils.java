@@ -35,7 +35,7 @@ public class EXPUtils {
         put("Raw Sea Turtle", 250);
         put("Raw Jellyfish", 250);
         // put("Raw Anglerfish", );
-        // put("Raw Goliath Grouper", );
+        put("Raw Goliath Grouper", 298);
         // put("Raw Shark", );
     }};
 
@@ -69,12 +69,12 @@ public class EXPUtils {
         put("Giant Snail Stew", 205);
         put("Starfish Pie Slice", 225);
         put("Smoked Manta Ray", 225);
-        // put("Grilled Octopus", );
+        put("Grilled Octopus", 215);
         put("Jellyfish Stew", 330);
-        // put("Grilled Anglerfish", );
-        // put("Grilled Goliath Grouper", );
-        // put("Goliath Stew", );
-        // put("Smoked Shark", );
+        put("Grilled Anglerfish", 290);
+        put("Grilled Goliath Grouper", 310);
+        put("Goliath Stew", 420);
+        put("Smoked Shark", 330);
         put("Volcanic Stew", 200);
         put("Carrot Cake Slice", 85);
         put("Banana Bread Slice", 105);
@@ -191,10 +191,10 @@ public class EXPUtils {
         put("Pyre Pepper", 125);
         put("Pumpkin", 150);
         // put("Mango, );
-        // put("Volcanic Hop", );
+        put("Volcanic Hops", 185);
         // put("Ghost Berry", );
         // put("Nether Wart", );
-        // put("Mandrake", );
+        put("Mandrake", 225);
     }};
 
     public static HashMap<String, Integer> miningXPMap = new LinkedHashMap<String, Integer>() {{
@@ -285,12 +285,6 @@ public class EXPUtils {
         // put("Tanned Zoar Hide", );
         // put("Tanned Unicorn Hide", );
         // put("Tanned Manticore Hide", );
-
-        put("Oak Handle", 27);
-        put("Birch Handle", 50);
-        put("Spruce Handle", 65);
-        put("Willow Handle", 90);
-        put("Acacia Handle", 120);
 
         put("Lapis Lazuli Ring", 75);
         put("Jade Ring", 90);

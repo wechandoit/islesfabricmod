@@ -14,6 +14,7 @@ import net.sayusimp.islesaddons.util.DiscordUtils;
 import net.sayusimp.islesaddons.util.MiscUtils;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
@@ -24,6 +25,7 @@ public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitiali
     private static int discordAppCount = 0;
     private static String previousIP = "";
     private static int clientTick = 1;
+    private static List<String> locations = new ArrayList<>();
 
     public void onPreLaunch() {
         IslesAddonsConfig.load();
@@ -39,26 +41,21 @@ public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitiali
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> closeIPC());
     }
 
-    public void closeIPC()
-    {
-        if(MiscUtils.onIsles()) {
+    public void closeIPC() {
+        if (MiscUtils.onIsles()) {
             previousIP = "";
             ipcClient.close();
         }
     }
 
-    public void setupIPC(MinecraftClient client)
-    {
+    public void setupIPC(MinecraftClient client) {
         clientTick = 1;
-        if (MiscUtils.onIsles())
-        {
-            if(previousIP.equals(""))
-            {
+        if (MiscUtils.onIsles()) {
+            if (previousIP.equals("")) {
                 previousIP = client.getCurrentServerEntry().address;
                 try {
                     ipcClient.connect();
-                } catch (NoDiscordClientException e)
-                {
+                } catch (NoDiscordClientException e) {
                     e.printStackTrace();
                 }
                 DiscordUtils.lastTimestamp = OffsetDateTime.now().toEpochSecond();
@@ -67,23 +64,20 @@ public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitiali
         }
     }
 
-    public void runnableRunner()
-    {
+    public void runnableRunner() {
         clientTick++;
-        if(clientTick > 20) clientTick = 1;
-        else if(clientTick==20)
-        {
+        if (clientTick > 20) clientTick = 1;
+        else if (clientTick == 20) {
             discordAppCount++;
-            if(discordAppCount > 5) discordAppCount = 0;
-            else if(discordAppCount == 5)
-            {
-                if(MiscUtils.onIsles())
-                {
+            if (discordAppCount > 5) discordAppCount = 0;
+            else if (discordAppCount == 5) {
+                if (MiscUtils.onIsles()) {
                     List<String> scoreboard = MiscUtils.getScoreboard();
-                    if(scoreboard.size() > 1)
-                    {
+                    if (scoreboard.size() > 1) {
                         if (scoreboard.get(1).startsWith("Rank: ")) DiscordUtils.updateRPC(scoreboard.get(2), "In Hub");
-                        else  DiscordUtils.updateRPC(scoreboard.get(2), "In Game");
+                        else {
+                            DiscordUtils.updateRPC(scoreboard.get(2), "In Game");
+                        }
                     }
                 } else {
                     if (!MinecraftClient.getInstance().isInSingleplayer()) DiscordUtils.updateRPC("In Game Menu", "");

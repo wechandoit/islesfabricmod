@@ -38,7 +38,7 @@ public class ClientPlayNetworkHandlerMixin {
                     if (message.contains("Raw") && MiscUtils.isWordFromListInString(message, EXPUtils.fishXPMap.keySet().stream().toList())) {
                         ci.cancel();
                         sendMessageToPlayerFromList(message, EXPUtils.fishXPMap, MinecraftClient.getInstance().player);
-                    } else if (!message.contains("Hide") && MiscUtils.isWordFromListInString(message, EXPUtils.cookingXPMap.keySet().stream().toList())) {
+                    } else if (!message.contains("Hide") && !message.contains("Sugarcane") && MiscUtils.isWordFromListInString(message, EXPUtils.cookingXPMap.keySet().stream().toList())) {
                         ci.cancel();
                         sendMessageToPlayerFromList(message, EXPUtils.cookingXPMap, MinecraftClient.getInstance().player);
                     } else if ((message.contains("Log") || message.contains("Bark")) && MiscUtils.isWordFromListInString(message, EXPUtils.foragingXPMap.keySet().stream().toList())) {

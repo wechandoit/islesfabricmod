@@ -19,6 +19,8 @@ import net.sayusimp.islesaddons.IslesAddonsClient;
 import net.sayusimp.islesaddons.config.IslesAddonsConfig;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MiscUtils {
 
@@ -60,7 +62,7 @@ public class MiscUtils {
                     }
                     stack.push(m);
                 } else {
-                    stack.push(String.valueOf(stack.pop()) + " " + m);
+                    stack.push(stack.pop() + " " + m);
                 }
             }
 
