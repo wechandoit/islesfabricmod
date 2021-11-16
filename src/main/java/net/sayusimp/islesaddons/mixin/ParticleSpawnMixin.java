@@ -20,25 +20,33 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(ParticleManager.class)
 public class ParticleSpawnMixin {
 
     MinecraftClient client = MinecraftClient.getInstance();
+    List<EntityType> qtetypes = List.of(EntityType.MAGMA_CUBE, EntityType.ITEM);
 
     @Inject(method = "addParticle(Lnet/minecraft/particle/ParticleEffect;DDDDDD)Lnet/minecraft/client/particle/Particle;", at = @At("HEAD"), cancellable = true)
-    public void renderParticles(ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ, CallbackInfoReturnable<Particle> cir) {
+    public void addParticles(ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ, CallbackInfoReturnable<Particle> cir) {
+
         if ((parameters.getType() == ParticleTypes.HAPPY_VILLAGER && IslesAddonsConfig.CONFIG.get("enable-green-qte-notifier", Boolean.class))
                 || (parameters.getType() == ParticleTypes.DRAGON_BREATH && IslesAddonsConfig.CONFIG.get("enable-purple-qte-notifier", Boolean.class))
                 || (parameters.getType() == ParticleTypes.FLAME && IslesAddonsConfig.CONFIG.get("enable-gold-qte-notifier", Boolean.class))) {
             Box particleBox = new Box(x - 0.15, y - 0.15, z - 0.15, x + 0.15, y + 0.15, z + 0.15);
             // get closest entity of type ItemEntity to particleLoc
-            List<Entity> nearbyDroppedItems = client.world.getOtherEntities(client.player, particleBox, (entity -> entity.getType() == EntityType.ITEM));
-            List<Entity> nearbyMounts = client.world.getOtherEntities(client.player, particleBox, (entity -> MiscUtils.mountTypes.contains(entity.getType())));
-            for (Entity e : nearbyDroppedItems) {
-                if (!isBlockTypeNearby(e, 1) && nearbyMounts.isEmpty()) {
-                    client.player.sendMessage(new LiteralText("There is a QTE nearby...").styled(style -> style.withColor(TextColor.parse(getColorFromType(parameters.getType())))), false);
+            List<Entity> nearbyClickBoxes = client.world.getOtherEntities(client.player, particleBox, (entity -> qtetypes.contains(entity.getType())));
+            List<EntityType> nearbyEntityTypes = new ArrayList<>();
+            nearbyClickBoxes.forEach(entity -> {
+                if (!nearbyEntityTypes.contains(entity.getType())) nearbyEntityTypes.add(entity.getType());
+            });
+            if (nearbyEntityTypes.containsAll(qtetypes)) {
+                for (Entity e : nearbyClickBoxes) {
+                    if (!isBlockTypeNearby(e, 1)) {
+                        client.player.sendMessage(new LiteralText("There is a QTE nearby...").styled(style -> style.withColor(TextColor.parse(getColorFromType(parameters.getType())))), false);
+                    }
                 }
             }
         }

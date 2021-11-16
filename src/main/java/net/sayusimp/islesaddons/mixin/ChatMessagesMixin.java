@@ -52,7 +52,7 @@ public abstract class ChatMessagesMixin {
                     if (lastMessage != null) removeLastSimilarMessage(lastMessage);
                     amount++;
 
-                    Text amountString = new LiteralText(" (x" + amount + ")")
+                    Text amountString = new LiteralText(" (x%amount%)".replace("%amount%", String.valueOf(amount)))
                             .styled(s -> s.withColor(TextColor.parse("#4DE3E3")));
                     if (text.getSiblings().isEmpty()) {
                         stackText = text.copy().setStyle(text.getStyle()).append(amountString);

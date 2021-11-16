@@ -14,18 +14,18 @@ import net.sayusimp.islesaddons.util.DiscordUtils;
 import net.sayusimp.islesaddons.util.MiscUtils;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitializer {
     public static MinecraftClient client = MinecraftClient.getInstance();
     public static IPCClient ipcClient = new IPCClient(904055870483222528L);
+    public static boolean isFishing = false;
+    public static String islesLocation = "";
 
     private static int discordAppCount = 0;
     private static String previousIP = "";
     private static int clientTick = 1;
-    private static List<String> locations = new ArrayList<>();
 
     public void onPreLaunch() {
         IslesAddonsConfig.load();
@@ -77,6 +77,7 @@ public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitiali
                         if (scoreboard.get(1).startsWith("Rank: ")) DiscordUtils.updateRPC(scoreboard.get(2), "In Hub");
                         else {
                             DiscordUtils.updateRPC(scoreboard.get(2), "In Game");
+                            islesLocation = scoreboard.get(2);
                         }
                     }
                 } else {

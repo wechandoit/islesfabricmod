@@ -193,7 +193,7 @@ public class EXPUtils {
         // put("Mango, );
         put("Volcanic Hops", 185);
         // put("Ghost Berry", );
-        // put("Nether Wart", );
+        put("Nether Wart", 325);
         put("Mandrake", 225);
     }};
 
