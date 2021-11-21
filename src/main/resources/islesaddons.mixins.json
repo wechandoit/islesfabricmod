@@ -10,7 +10,8 @@
     "ClientPlayNetworkHandlerMixin",
     "HotbarRenderMixin",
     "ItemRenderMixin",
-    "ParticleSpawnMixin"
+    "ParticleSpawnMixin",
+    "BlockStateMixin"
   ],
   "injectors": {
     "defaultRequire": 1

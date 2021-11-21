@@ -97,7 +97,6 @@ public abstract class ChatMessagesMixin {
         for (int i = messages.size() - 1; i >= 0; i--) {
             if (messages.get(i).getText().getString().equals(similar.getString())) {
                 line = i;
-                System.out.println(messages.get(i));
             }
         }
         if (line >= 0) removeMessage(line);
@@ -106,6 +105,5 @@ public abstract class ChatMessagesMixin {
     private void removeMessage(int line) {
         if (messages.size() > line) messages.remove(line);
         if (visibleMessages.size() > line) visibleMessages.remove(line);
-        System.out.println(messages);
     }
 }

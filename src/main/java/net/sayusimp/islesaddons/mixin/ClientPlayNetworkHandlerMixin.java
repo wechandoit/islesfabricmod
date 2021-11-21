@@ -120,8 +120,7 @@ public class ClientPlayNetworkHandlerMixin {
             if (isLumberBuff)
                 msg = msg.copy().append(new LiteralText(" +(x1.5 XP 🪓)").styled(style -> style.withColor(TextColor.parse("#C350C7"))));
             if (isROLProc)
-                msg =
-                        msg.copy().append(new LiteralText(" (☘)").styled(style -> style.withColor(TextColor.parse("#FCF514"))));
+                msg = msg.copy().append(new LiteralText(" (☘)").styled(style -> style.withColor(TextColor.parse("#FCF514"))));
             MinecraftClient.getInstance().player.sendMessage(msg, false);
         }
     }
@@ -129,7 +128,7 @@ public class ClientPlayNetworkHandlerMixin {
     private String getColorFromAmount(int amount) {
         if (amount == 1) {
             return "#71D9AA";
-        } else if (amount > 1 && amount <= 10) {
+        } else if (amount > 1 && amount <= 20) {
             return "#AC71D9";
         } else {
             return "#EBC738";
