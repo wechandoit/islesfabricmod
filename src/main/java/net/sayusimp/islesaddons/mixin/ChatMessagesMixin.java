@@ -7,6 +7,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
+import net.sayusimp.islesaddons.IslesAddonsClient;
 import net.sayusimp.islesaddons.config.IslesAddonsConfig;
 import net.sayusimp.islesaddons.util.MiscUtils;
 import org.spongepowered.asm.mixin.Final;
@@ -43,6 +44,8 @@ public abstract class ChatMessagesMixin {
 
     @Inject(method = "addMessage(Lnet/minecraft/text/Text;I)V", at = @At("TAIL"))
     public void onChatMessage(Text text, int messageId, CallbackInfo ci) {
+        List<String> rareFishingItems = Arrays.asList("Old Boots", "Fishing Casket", "Pufferfish Mask");
+
         if (IslesAddonsConfig.CONFIG.get("enable-stack-chat", Boolean.class)) {
             if (!sentStackMessage) {
                 Text stackText = null;
@@ -75,15 +78,20 @@ public abstract class ChatMessagesMixin {
             }
         }
 
+        String message = text.getString();
 
         if (IslesAddonsConfig.CONFIG.get("enable-rare-fishing-title", Boolean.class)) {
-            String message = text.getString();
-            List<String> rareFishingItems = Arrays.asList("Old Boots", "Fishing Casket", "Pufferfish Mask");
-
             if (message.contains("[ITEM]") && MiscUtils.isWordFromListInString(message, rareFishingItems)) {
                 MinecraftClient.getInstance().inGameHud.setTitle(text);
                 MinecraftClient.getInstance().inGameHud.setDefaultTitleFade();
             }
+        }
+
+        if (message.contains("[Error] You have moved too far! Fishing has been cancelled.")) {
+            IslesAddonsClient.isFishing = false;
+            IslesAddonsClient.fishingEntity = null;
+            IslesAddonsClient.fishingHoloEntity = null;
+            client.player.sendMessage(new LiteralText("You have stopped fishing...").styled(style -> style.withColor(TextColor.parse("yellow"))), false);
         }
     }
 

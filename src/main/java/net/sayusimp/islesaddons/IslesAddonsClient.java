@@ -12,6 +12,7 @@ import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.mob.MagmaCubeEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.ActionResult;
@@ -28,6 +29,7 @@ public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitiali
     public static IPCClient ipcClient = new IPCClient(904055870483222528L);
     public static boolean isFishing = false;
     public static Entity fishingEntity = null;
+    public static Entity fishingHoloEntity = null;
     public static String islesLocation = "";
 
     private static int discordAppCount = 0;
@@ -48,10 +50,11 @@ public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitiali
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> setupIPC(client));
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> closeIPC());
         UseEntityCallback.EVENT.register(((player, world, hand, entity, hitResult) -> {
-            if (entity.getType() == EntityType.MAGMA_CUBE && !justStartedFishing && client.player.getInventory().getEmptySlot() > -1) {
+            if (!isFishing && entity.getType() == EntityType.MAGMA_CUBE && !justStartedFishing && client.player.getInventory().getEmptySlot() > -1 && ((MagmaCubeEntity) entity).getSize() > 1) {
                 isFishing = true;
                 justStartedFishing = true;
                 fishingEntity = entity;
+                fishingHoloEntity = getFishingHoloEntity();
                 client.player.sendMessage(new LiteralText("You have started fishing...").styled(style -> style.withColor(TextColor.parse("yellow"))), false);
             }
             return ActionResult.PASS;
@@ -81,31 +84,34 @@ public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitiali
         }
     }
 
-    private boolean isFishingArmorstandNearby() {
-        List<Entity> nearbyArmorstands = client.world.getOtherEntities(client.player, fishingEntity.getBoundingBox(), entity -> entity.getType() == EntityType.ARMOR_STAND);
-        if (nearbyArmorstands.isEmpty()) return false;
+    private Entity getFishingHoloEntity() {
+        // Change to store armorstands near magma cube and then check if new armorstands pop up
+        List<Entity> nearbyArmorstands = client.world.getOtherEntities(client.player, fishingEntity.getBoundingBox().expand(0, 1, 0), entity -> entity.getType() == EntityType.ARMOR_STAND);
+        if (nearbyArmorstands.isEmpty()) return null;
         for (Entity armorStand : nearbyArmorstands) {
             if (armorStand.getDisplayName().toString().contains("Fishing")) {
-                return true;
+                return armorStand;
             }
         }
-        return false;
+        return null;
     }
 
     private boolean isFishingEntityAlive() {
         return fishingEntity != null && fishingEntity.isAlive();
     }
 
+    private boolean isFishingArmorstandNearby() {
+        return getFishingHoloEntity() != null && fishingHoloEntity.getId() != getFishingHoloEntity().getId();
+    }
+
     public void runnableRunner() {
         clientTick++;
-        if (isFishing && (!fishingEntity.isAlive() || isFishingArmorstandNearby() || client.player.isSneaking()) && !justStartedFishing) {
+        if (isFishing && (!isFishingEntityAlive() || isFishingArmorstandNearby() || client.player.isSneaking() || client.player.getInventory().getEmptySlot() > -1) && !justStartedFishing) {
             isFishing = false;
-            System.out.println("1: " + !isFishingEntityAlive());
-            System.out.println("2: " + isFishingArmorstandNearby());
-            System.out.println("3: " + !justStartedFishing);
+            fishingEntity = null;
+            fishingHoloEntity = null;
             client.player.sendMessage(new LiteralText("You have stopped fishing...").styled(style -> style.withColor(TextColor.parse("yellow"))), false);
-        } else if (justStartedFishing)
-        {
+        } else if (justStartedFishing) {
             justStartedFishing = false;
         }
         if (clientTick > 20) clientTick = 1;

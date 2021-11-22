@@ -71,7 +71,7 @@ public class ParticleSpawnMixin {
         if ((parameters.getType() == ParticleTypes.HAPPY_VILLAGER && IslesAddonsConfig.CONFIG.get("enable-green-qte-notifier", Boolean.class))
                 || (parameters.getType() == ParticleTypes.DRAGON_BREATH && IslesAddonsConfig.CONFIG.get("enable-purple-qte-notifier", Boolean.class))
                 || (parameters.getType() == ParticleTypes.FLAME && IslesAddonsConfig.CONFIG.get("enable-gold-qte-notifier", Boolean.class))) {
-            Box particleBox = new Box(x - 0.15, y - 0.15, z - 0.15, x + 0.15, y + 0.15, z + 0.15);
+            Box particleBox = new Box(x - 0.5, y - 0.5, z - 0.5, x + 0.5, y + 0.5, z + 0.5);
             // get closest entity of type ItemEntity to particleLoc
             List<Entity> nearbyClickBoxes = client.world.getOtherEntities(client.player, particleBox, (entity -> qtetypes.contains(entity.getType())));
             List<EntityType> nearbyEntityTypes = new ArrayList<>();
