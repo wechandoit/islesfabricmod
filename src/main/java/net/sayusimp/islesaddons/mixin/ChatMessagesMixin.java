@@ -86,12 +86,13 @@ public abstract class ChatMessagesMixin {
                 MinecraftClient.getInstance().inGameHud.setDefaultTitleFade();
             }
         }
-
-        if (message.contains("[Error] You have moved too far! Fishing has been cancelled.")) {
-            IslesAddonsClient.isFishing = false;
-            IslesAddonsClient.fishingEntity = null;
-            IslesAddonsClient.fishingHoloEntity = null;
-            client.player.sendMessage(new LiteralText("You have stopped fishing...").styled(style -> style.withColor(TextColor.parse("yellow"))), false);
+        if (IslesAddonsConfig.CONFIG.get("enable-fishing-notifier", Boolean.class)) {
+            if (message.contains("[Error] You have moved too far! Fishing has been cancelled.")) {
+                IslesAddonsClient.isFishing = false;
+                IslesAddonsClient.fishingEntity = null;
+                IslesAddonsClient.fishingHoloEntity = null;
+                client.player.sendMessage(new LiteralText("You have stopped fishing...").styled(style -> style.withColor(TextColor.parse("yellow"))), false);
+            }
         }
     }
 

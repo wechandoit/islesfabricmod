@@ -50,12 +50,16 @@ public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitiali
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> setupIPC(client));
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> closeIPC());
         UseEntityCallback.EVENT.register(((player, world, hand, entity, hitResult) -> {
-            if (!isFishing && entity.getType() == EntityType.MAGMA_CUBE && !justStartedFishing && client.player.getInventory().getEmptySlot() > -1 && ((MagmaCubeEntity) entity).getSize() > 1) {
-                isFishing = true;
-                justStartedFishing = true;
-                fishingEntity = entity;
-                fishingHoloEntity = getFishingHoloEntity();
-                client.player.sendMessage(new LiteralText("You have started fishing...").styled(style -> style.withColor(TextColor.parse("yellow"))), false);
+            if (IslesAddonsConfig.CONFIG.get("enable-fishing-notifier", Boolean.class)) {
+                if (!isFishing && entity.getType() == EntityType.MAGMA_CUBE && !justStartedFishing
+                        && client.player.getInventory().getEmptySlot() > -1 && ((MagmaCubeEntity) entity).getSize() > 1
+                        && getFishingHoloEntity(entity) != null) {
+                    isFishing = true;
+                    justStartedFishing = true;
+                    fishingEntity = entity;
+                    fishingHoloEntity = getFishingHoloEntity(entity);
+                    client.player.sendMessage(new LiteralText("You have started fishing...").styled(style -> style.withColor(TextColor.parse("yellow"))), false);
+                }
             }
             return ActionResult.PASS;
         }));
@@ -84,9 +88,9 @@ public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitiali
         }
     }
 
-    private Entity getFishingHoloEntity() {
+    private Entity getFishingHoloEntity(Entity e) {
         // Change to store armorstands near magma cube and then check if new armorstands pop up
-        List<Entity> nearbyArmorstands = client.world.getOtherEntities(client.player, fishingEntity.getBoundingBox().expand(0, 1, 0), entity -> entity.getType() == EntityType.ARMOR_STAND);
+        List<Entity> nearbyArmorstands = client.world.getOtherEntities(client.player, e.getBoundingBox().expand(0, 1, 0), entity -> entity.getType() == EntityType.ARMOR_STAND);
         if (nearbyArmorstands.isEmpty()) return null;
         for (Entity armorStand : nearbyArmorstands) {
             if (armorStand.getDisplayName().toString().contains("Fishing")) {
@@ -101,18 +105,20 @@ public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitiali
     }
 
     private boolean isFishingArmorstandNearby() {
-        return getFishingHoloEntity() != null && fishingHoloEntity.getId() != getFishingHoloEntity().getId();
+        return getFishingHoloEntity(fishingEntity) != null && fishingHoloEntity.getId() != getFishingHoloEntity(fishingEntity).getId();
     }
 
     public void runnableRunner() {
         clientTick++;
-        if (isFishing && (!isFishingEntityAlive() || isFishingArmorstandNearby() || client.player.isSneaking() || client.player.getInventory().getEmptySlot() > -1) && !justStartedFishing) {
-            isFishing = false;
-            fishingEntity = null;
-            fishingHoloEntity = null;
-            client.player.sendMessage(new LiteralText("You have stopped fishing...").styled(style -> style.withColor(TextColor.parse("yellow"))), false);
-        } else if (justStartedFishing) {
-            justStartedFishing = false;
+        if (IslesAddonsConfig.CONFIG.get("enable-fishing-notifier", Boolean.class)) {
+            if (isFishing && (!isFishingEntityAlive() || isFishingArmorstandNearby() || client.player.isSneaking() || client.player.getInventory().getEmptySlot() == -1) && !justStartedFishing) {
+                isFishing = false;
+                fishingEntity = null;
+                fishingHoloEntity = null;
+                client.player.sendMessage(new LiteralText("You have stopped fishing...").styled(style -> style.withColor(TextColor.parse("yellow"))), false);
+            } else if (justStartedFishing) {
+                justStartedFishing = false;
+            }
         }
         if (clientTick > 20) clientTick = 1;
         else if (clientTick == 20) {

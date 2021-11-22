@@ -5,5 +5,7 @@
   "enable-green-qte-notifier": false,
   "enable-purple-qte-notifier": true,
   "enable-gold-qte-notifier": true,
-  "enable-stack-chat": true
+  "enable-stack-chat": true,
+  "enable-fishing-notifier": true,
+  "enable-glowing-parkour-skulls": false
 }

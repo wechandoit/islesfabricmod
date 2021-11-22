@@ -13,5 +13,9 @@
   "option.isles-addons.enable-gold-qte-notifier": "Legendary QTE Message",
   "option.isles-addons.enable-gold-qte-notifier.tooltip": "Get notified in chat if there is a Gold QTE nearby",
   "option.isles-addons.enable-stack-chat": "Stack Chat",
-  "option.isles-addons.enable-stack-chat.tooltip": "Enable/Disable message stacking in chat (duplicates will be stacked)"
+  "option.isles-addons.enable-stack-chat.tooltip": "Enable/Disable message stacking in chat (duplicates will be stacked)",
+  "option.isles-addons.enable-fishing-notifier": "Enable Fishing Notifier",
+  "option.isles-addons.enable-fishing-notifier.tooltip": "Enable/Disable the Fishing Notifier when you finish fishing",
+  "option.isles-addons.enable-glowing-parkour-skulls": "Glowing Skulls in Giant Parkour",
+  "option.isles-addons.enable-glowing-parkour-skulls.tooltip": "Enable/Disable making the skulls in the Giant's Parkour glow"
 }
