@@ -3,6 +3,7 @@ package net.sayusimp.islesaddons.mixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
@@ -91,6 +92,7 @@ public abstract class ChatMessagesMixin {
                 IslesAddonsClient.isFishing = false;
                 IslesAddonsClient.fishingEntity = null;
                 IslesAddonsClient.fishingHoloEntity = null;
+                client.player.playSound(SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, 1F, 0.8F);
                 client.player.sendMessage(new LiteralText("You have stopped fishing...").styled(style -> style.withColor(TextColor.parse("yellow"))), false);
             }
         }

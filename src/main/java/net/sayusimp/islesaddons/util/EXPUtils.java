@@ -95,7 +95,7 @@ public class EXPUtils {
         put("Fried Frog Legs", 36);
         put("Bacon and Eggs", 50);
         put("Grilled Boar Steak", 55);
-        put("Escargot", 85);
+        put("Escargot", 90);
         put("Grilled Bear Steak", 80);
         put("Fried Chicken", 32);
         put("Grilled Duck", 24);
@@ -212,7 +212,7 @@ public class EXPUtils {
         put("Mithril Ore", 185);
         put("Ice", 90);
         // put("Granite Slab", );
-        // put("Cannonball", );
+        put("Cannonball", 110);
         put("Adamantium Ore", 215);
         // put("Cobalt Ore", );
         put("Gold Ore", 150);

@@ -13,14 +13,20 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MagmaCubeEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.SkullItem;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.math.Box;
 import net.sayusimp.islesaddons.config.IslesAddonsConfig;
 import net.sayusimp.islesaddons.util.DiscordUtils;
 import net.sayusimp.islesaddons.util.MiscUtils;
 
 import java.time.OffsetDateTime;
+import java.util.Iterator;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
@@ -36,6 +42,8 @@ public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitiali
     private static String previousIP = "";
     private static int clientTick = 1;
     private static boolean justStartedFishing = false;
+    private String skullSignature = "ngBEheIaXuWnZaiWkxNB8XPN8Nbuo08mDHPZWNEVs82GnKfsC6lLU/nED3VGeHUT/8pxWxwS1Zjfuh/ty0Yzd7jovVrI8qYNIrHidHoct4twJ1Nch8+NmeIY7aE9yy6EuI81x1MK90vhMmyNHYnalMYMMbZE7TizwvzKKKdpvvrK8xspzNednbyXpTbHsAUV90SjdNH5TQlaI61XT+TCPYjX7nBDBcqPLMWWzO/SVskQfPoufphgdw7uOugZPiULtoQy6TEYGIXOjvFmBcF0HlHUbhHKuxUSSr5wLhb5kMZQaUTkWAJIfH3V/1wU/vSG5T1IU4kcw3LOlFr3uUZHzzU6w+a3mAE+P7aBBsgtB0Qrw8sB/miqArNjEAz4p52Mqly1o+PTFhPvczTNzStWNHg6oDsYlzZ+xtqD/5XAr32YUHwUgFld22b4bOsYWLPd1dvT0GxMVEFDadXVYD5Omf2Qr+6dAbFbIcVN8qe+/Wo+AsYmr49VQxifCxZ3kg6RnomPSwNsIN+xGZzr42bPA4iHSMJ19uvhX1pvrw19tTJ6zvfCKgutQYx/hse5BDOADDc0ci4Og9U/aQGX33Q76SsW61Clg0a5g9rpqxTuTgcLUSMoaPvOp0goW8CetHR0DqqwzqHXIAZJNdD9bL1q3hEbzW7VwTduD5R98ELNb/Q=";
+
 
     public void onPreLaunch() {
         IslesAddonsConfig.load();
@@ -58,7 +66,6 @@ public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitiali
                     justStartedFishing = true;
                     fishingEntity = entity;
                     fishingHoloEntity = getFishingHoloEntity(entity);
-                    client.player.sendMessage(new LiteralText("You have started fishing...").styled(style -> style.withColor(TextColor.parse("yellow"))), false);
                 }
             }
             return ActionResult.PASS;
@@ -115,9 +122,25 @@ public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitiali
                 isFishing = false;
                 fishingEntity = null;
                 fishingHoloEntity = null;
+                client.player.playSound(SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, 1F, 0.8F);
                 client.player.sendMessage(new LiteralText("You have stopped fishing...").styled(style -> style.withColor(TextColor.parse("yellow"))), false);
             } else if (justStartedFishing) {
                 justStartedFishing = false;
+            }
+        }
+        if (IslesAddonsConfig.CONFIG.get("enable-glowing-parkour-skulls", Boolean.class)) {
+            // get closest armorstand to particleLoc
+            List<Entity> nearbyArmorStands = client.world.getOtherEntities(client.player, client.player.getVisibilityBoundingBox(), (entity -> entity.getType() == EntityType.ARMOR_STAND && !entity.isGlowing()));
+            for (Entity e : nearbyArmorStands) {
+                if (!e.isGlowing()) {
+                    Iterator<ItemStack> armorItems = e.getArmorItems().iterator();
+                    while (armorItems.hasNext()) {
+                        ItemStack stack = armorItems.next();
+                        if (stack != null && !stack.toString().toUpperCase().contains("AIR") && stack.getNbt().get(SkullItem.SKULL_OWNER_KEY).toString().contains(skullSignature)) {
+                            e.setGlowing(true);
+                        }
+                    }
+                }
             }
         }
         if (clientTick > 20) clientTick = 1;

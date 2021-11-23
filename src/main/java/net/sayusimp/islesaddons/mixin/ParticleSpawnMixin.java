@@ -30,31 +30,10 @@ import java.util.List;
 public class ParticleSpawnMixin {
 
     MinecraftClient client = MinecraftClient.getInstance();
-    List<EntityType> qtetypes = List.of(EntityType.MAGMA_CUBE, EntityType.ITEM);
-    private String skullSignature = "ngBEheIaXuWnZaiWkxNB8XPN8Nbuo08mDHPZWNEVs82GnKfsC6lLU/nED3VGeHUT/8pxWxwS1Zjfuh/ty0Yzd7jovVrI8qYNIrHidHoct4twJ1Nch8+NmeIY7aE9yy6EuI81x1MK90vhMmyNHYnalMYMMbZE7TizwvzKKKdpvvrK8xspzNednbyXpTbHsAUV90SjdNH5TQlaI61XT+TCPYjX7nBDBcqPLMWWzO/SVskQfPoufphgdw7uOugZPiULtoQy6TEYGIXOjvFmBcF0HlHUbhHKuxUSSr5wLhb5kMZQaUTkWAJIfH3V/1wU/vSG5T1IU4kcw3LOlFr3uUZHzzU6w+a3mAE+P7aBBsgtB0Qrw8sB/miqArNjEAz4p52Mqly1o+PTFhPvczTNzStWNHg6oDsYlzZ+xtqD/5XAr32YUHwUgFld22b4bOsYWLPd1dvT0GxMVEFDadXVYD5Omf2Qr+6dAbFbIcVN8qe+/Wo+AsYmr49VQxifCxZ3kg6RnomPSwNsIN+xGZzr42bPA4iHSMJ19uvhX1pvrw19tTJ6zvfCKgutQYx/hse5BDOADDc0ci4Og9U/aQGX33Q76SsW61Clg0a5g9rpqxTuTgcLUSMoaPvOp0goW8CetHR0DqqwzqHXIAZJNdD9bL1q3hEbzW7VwTduD5R98ELNb/Q=";
-    List<ParticleType> legendaryQTEParticleTypes = List.of(ParticleTypes.FLAME, ParticleTypes.DRIPPING_HONEY, ParticleTypes.FALLING_HONEY, ParticleTypes.LANDING_HONEY);
+    List<EntityType> qtetypes = List.of(EntityType.MAGMA_CUBE, EntityType.ITEM);List<ParticleType> legendaryQTEParticleTypes = List.of(ParticleTypes.FLAME, ParticleTypes.DRIPPING_HONEY, ParticleTypes.FALLING_HONEY, ParticleTypes.LANDING_HONEY);
 
     @Inject(method = "addParticle(Lnet/minecraft/particle/ParticleEffect;DDDDDD)Lnet/minecraft/client/particle/Particle;", at = @At("HEAD"), cancellable = true)
     public void addParticles(ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ, CallbackInfoReturnable<Particle> cir) {
-
-        if (IslesAddonsConfig.CONFIG.get("enable-glowing-parkour-skulls", Boolean.class)) {
-            if (parameters.getType() == ParticleTypes.WHITE_ASH) {
-                Box particleBox = new Box(x - 0.5, (y - 1) - 0.5, z - 0.5, x + 0.5, (y - 1) + 0.5, z + 0.5);
-                // get closest armorstand to particleLoc
-                List<Entity> nearbyArmorStands = client.world.getOtherEntities(client.player, particleBox, (entity -> entity.getType() == EntityType.ARMOR_STAND && !entity.isGlowing()));
-                for (Entity e : nearbyArmorStands) {
-                    if (!e.isGlowing()) {
-                        Iterator<ItemStack> armorItems = e.getArmorItems().iterator();
-                        while (armorItems.hasNext()) {
-                            ItemStack stack = armorItems.next();
-                            if (stack != null && !stack.toString().toUpperCase().contains("AIR") && stack.getNbt().get(SkullItem.SKULL_OWNER_KEY).toString().contains(skullSignature)) {
-                                e.setGlowing(true);
-                            }
-                        }
-                    }
-                }
-            }
-        }
 
         if ((parameters.getType() == ParticleTypes.HAPPY_VILLAGER && IslesAddonsConfig.CONFIG.get("enable-green-qte-notifier", Boolean.class))
                 || (parameters.getType() == ParticleTypes.DRAGON_BREATH && IslesAddonsConfig.CONFIG.get("enable-purple-qte-notifier", Boolean.class))
