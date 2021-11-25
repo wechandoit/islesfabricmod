@@ -26,7 +26,8 @@ import java.util.List;
 public class ParticleSpawnMixin {
 
     MinecraftClient client = MinecraftClient.getInstance();
-    List<EntityType> qtetypes = List.of(EntityType.MAGMA_CUBE, EntityType.ITEM);List<ParticleType> legendaryQTEParticleTypes = List.of(ParticleTypes.FLAME, ParticleTypes.DRIPPING_HONEY, ParticleTypes.FALLING_HONEY, ParticleTypes.LANDING_HONEY);
+    List<EntityType> qtetypes = List.of(EntityType.MAGMA_CUBE, EntityType.ITEM);
+    List<ParticleType> legendaryQTEParticleTypes = List.of(ParticleTypes.DRIPPING_HONEY, ParticleTypes.FALLING_HONEY, ParticleTypes.LANDING_HONEY);
 
     @Inject(method = "addParticle(Lnet/minecraft/particle/ParticleEffect;DDDDDD)Lnet/minecraft/client/particle/Particle;", at = @At("HEAD"), cancellable = true)
     public void addParticles(ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ, CallbackInfoReturnable<Particle> cir) {

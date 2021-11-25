@@ -34,7 +34,7 @@ public class ClientPlayNetworkHandlerMixin {
         if (IslesAddonsConfig.CONFIG.get("enable-custom-message", Boolean.class)) {
             if (MiscUtils.onIsles()) {
                 String message = packet.getMessage().getString();
-                if (message.contains("[ITEM]")) {
+                if (message.contains("[ITEM]") && !message.contains("Cornucopia")) {
                     if (message.contains("Raw") && MiscUtils.isWordFromListInString(message, EXPUtils.fishXPMap.keySet().stream().toList())) {
                         ci.cancel();
                         sendMessageToPlayerFromList(message, EXPUtils.fishXPMap, MinecraftClient.getInstance().player);

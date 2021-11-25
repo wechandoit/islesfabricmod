@@ -128,13 +128,14 @@ public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitiali
         }
         if (IslesAddonsConfig.CONFIG.get("enable-glowing-parkour-skulls", Boolean.class)) {
             // get closest armorstand to particleLoc
-            List<Entity> nearbyArmorStands = client.world.getOtherEntities(client.player, client.player.getVisibilityBoundingBox(), (entity -> entity.getType() == EntityType.ARMOR_STAND && !entity.isGlowing()));
+            List<Entity> nearbyArmorStands = client.world.getOtherEntities(client.player, client.player.getBoundingBox().expand(client.gameRenderer.getViewDistance(), client.gameRenderer.getViewDistance(), client.gameRenderer.getViewDistance()), (entity -> entity.getType() == EntityType.ARMOR_STAND));
             for (Entity e : nearbyArmorStands) {
                 if (!e.isGlowing()) {
                     Iterator<ItemStack> armorItems = e.getArmorItems().iterator();
                     while (armorItems.hasNext()) {
                         ItemStack stack = armorItems.next();
-                        if (stack != null && !stack.toString().toUpperCase().contains("AIR") && stack.getNbt().get(SkullItem.SKULL_OWNER_KEY).toString().contains(skullSignature)) {
+                        if (stack != null && !stack.toString().toUpperCase().contains("AIR") && stack.getNbt() != null && stack.getNbt().get(SkullItem.SKULL_OWNER_KEY) != null && stack.getNbt().get(SkullItem.SKULL_OWNER_KEY).toString().contains(skullSignature)) {
+                            System.out.println(e);
                             e.setGlowing(true);
                         }
                     }
