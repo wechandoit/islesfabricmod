@@ -135,7 +135,6 @@ public class IslesAddonsClient implements PreLaunchEntrypoint, ClientModInitiali
                     while (armorItems.hasNext()) {
                         ItemStack stack = armorItems.next();
                         if (stack != null && !stack.toString().toUpperCase().contains("AIR") && stack.getNbt() != null && stack.getNbt().get(SkullItem.SKULL_OWNER_KEY) != null && stack.getNbt().get(SkullItem.SKULL_OWNER_KEY).toString().contains(skullSignature)) {
-                            System.out.println(e);
                             e.setGlowing(true);
                         }
                     }
