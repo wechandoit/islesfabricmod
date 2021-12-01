@@ -2,7 +2,6 @@ package net.sayusimp.islesaddons.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -37,47 +36,47 @@ public class ClientPlayNetworkHandlerMixin {
                 if (message.contains("[ITEM]") && !message.contains("Cornucopia")) {
                     if (message.contains("Raw") && MiscUtils.isWordFromListInString(message, EXPUtils.fishXPMap.keySet().stream().toList())) {
                         ci.cancel();
-                        sendMessageToPlayerFromList(message, EXPUtils.fishXPMap, MinecraftClient.getInstance().player);
+                        sendMessageToPlayerFromList(message, EXPUtils.fishXPMap);
                     } else if (!message.contains("Hide") && !message.contains("Sugarcane") && MiscUtils.isWordFromListInString(message, EXPUtils.cookingXPMap.keySet().stream().toList())) {
                         ci.cancel();
-                        sendMessageToPlayerFromList(message, EXPUtils.cookingXPMap, MinecraftClient.getInstance().player);
+                        sendMessageToPlayerFromList(message, EXPUtils.cookingXPMap);
                     } else if ((message.contains("Log") || message.contains("Bark")) && MiscUtils.isWordFromListInString(message, EXPUtils.foragingXPMap.keySet().stream().toList())) {
                         ci.cancel();
                         if (message.contains("🪓"))
-                            sendMessageToPlayerFromList(message, EXPUtils.foragingXPMap, MinecraftClient.getInstance().player, true);
+                            sendMessageToPlayerFromList(message, EXPUtils.foragingXPMap, true);
                         else
-                            sendMessageToPlayerFromList(message, EXPUtils.foragingXPMap, MinecraftClient.getInstance().player);
+                            sendMessageToPlayerFromList(message, EXPUtils.foragingXPMap);
                     } else if (message.contains("Handle") && MiscUtils.isWordFromListInString(message, EXPUtils.foragingXPMap.keySet().stream().toList())) {
                         ci.cancel();
-                        sendMessageToPlayerFromList(message, EXPUtils.carvingXPMap, MinecraftClient.getInstance().player);
+                        sendMessageToPlayerFromList(message, EXPUtils.carvingXPMap);
                     } else if (MiscUtils.isWordFromListInString(message, EXPUtils.farmingXPMap.keySet().stream().toList())) {
                         ci.cancel();
-                        sendMessageToPlayerFromList(message, EXPUtils.farmingXPMap, MinecraftClient.getInstance().player);
+                        sendMessageToPlayerFromList(message, EXPUtils.farmingXPMap);
                     } else if ((message.contains("Ore") || message.contains("Chunk")
                             || message.contains("Coal") || message.contains("Ice")
                             || message.contains("Essence") || message.contains("Slab")
                             || message.contains("Cannonball")) && MiscUtils.isWordFromListInString(message, EXPUtils.miningXPMap.keySet().stream().toList())) {
                         ci.cancel();
-                        sendMessageToPlayerFromList(message, EXPUtils.miningXPMap, MinecraftClient.getInstance().player);
+                        sendMessageToPlayerFromList(message, EXPUtils.miningXPMap);
                     } else if ((message.contains("Molten") || message.contains("Bar")) && MiscUtils.isWordFromListInString(message, EXPUtils.smeltingXPMap.keySet().stream().toList())) {
                         ci.cancel();
-                        sendMessageToPlayerFromList(message, EXPUtils.smeltingXPMap, MinecraftClient.getInstance().player);
+                        sendMessageToPlayerFromList(message, EXPUtils.smeltingXPMap);
                     }
                 }
             }
         }
     }
 
-    private void sendMessageToPlayerFromList(String message, Map<String, Integer> xpmap, ClientPlayerEntity player) {
-        sendMessageToPlayerFromList(message, xpmap, player, false, false);
+    private void sendMessageToPlayerFromList(String message, Map<String, Integer> xpmap) {
+        sendMessageToPlayerFromList(message, xpmap, false, false);
     }
 
-    private void sendMessageToPlayerFromList(String message, Map<String, Integer> xpmap, ClientPlayerEntity player, boolean isLumberBuff) {
-        sendMessageToPlayerFromList(message, xpmap, player, isLumberBuff, false);
+    private void sendMessageToPlayerFromList(String message, Map<String, Integer> xpmap, boolean isLumberBuff) {
+        sendMessageToPlayerFromList(message, xpmap, isLumberBuff, false);
     }
 
     private void sendMessageToPlayerFromList(String message, Map<String,
-            Integer> xpmap, ClientPlayerEntity player, boolean isLumberBuff,
+            Integer> xpmap, boolean isLumberBuff,
                                              boolean isROLProc) {
         float multiplier = isLumberBuff ? 1.5F : 1;
         Stack stack = MiscUtils.getStackFromItemResourceString(message.substring(7));
